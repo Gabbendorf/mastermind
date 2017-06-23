@@ -17,4 +17,14 @@ RSpec.describe Board do
     expect(board.colour_pattern).to eq(["green", "blue", "purple", "yellow"])
   end
 
+  it "registers a guess" do
+    guess = ["red", "blue", "yellow", "green"]
+    guess2 = ["red", "purple", "yellow", "orange"]
+
+    board.register_guess(guess)
+    board.register_guess(guess2)
+
+    expect(board.guesses).to eq ([["red", "blue", "yellow", "green"], ["red", "purple", "yellow", "orange"]])
+  end
+
 end

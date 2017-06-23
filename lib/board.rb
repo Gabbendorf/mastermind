@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :colour_pattern
+  attr_reader :colour_pattern, :guesses
 
   def initialize(rows)
     @rows = rows
