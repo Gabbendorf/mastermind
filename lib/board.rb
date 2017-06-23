@@ -1,11 +1,12 @@
 class Board
 
-  attr_reader :colour_pattern, :guesses
+  attr_reader :colour_pattern, :guesses, :all_feeback
 
   def initialize(rows)
     @rows = rows
     @colour_pattern = []
     @guesses = []
+    @all_feeback = []
   end
 
   def register_colour_pattern(colour)
@@ -14,6 +15,10 @@ class Board
 
   def register_guess(guess)
     @guesses.push(guess)
+  end
+
+  def register_feedback(feedback)
+    @all_feeback.push(feedback)
   end
 
 end

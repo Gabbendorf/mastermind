@@ -24,7 +24,17 @@ RSpec.describe Board do
     board.register_guess(guess)
     board.register_guess(guess2)
 
-    expect(board.guesses).to eq ([["red", "blue", "yellow", "green"], ["red", "purple", "yellow", "orange"]])
+    expect(board.guesses).to eq ([["red", "blue", "yellow", "green"],
+                                  ["red", "purple", "yellow", "orange"]
+                                ])
+  end
+
+  it "registers feedback after each guess" do
+    feedback = ["red", "red", "white"]
+
+    board.register_feedback(feedback)
+
+    expect(board.all_feeback).to eq([["red", "red", "white"]])
   end
 
 end
