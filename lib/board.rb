@@ -21,4 +21,8 @@ class Board
     @all_feeback.push(feedback)
   end
 
+  def game_over?
+    @guesses.size == @rows || @all_feeback.last == [:red, :red, :red, :red]
+  end
+
 end

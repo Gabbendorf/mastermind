@@ -37,4 +37,23 @@ RSpec.describe Board do
     expect(board.all_feeback).to eq([["red", "red", "white"]])
   end
 
+  it "knows when game is over" do
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.register_guess(["blue", "blue", "blue", "blue"])
+
+    expect(board.game_over?).to eq(true)
+  end
+
+  it "knows when game is over" do
+    board.register_feedback([:red, :red, :red, :red])
+
+    expect(board.game_over?).to eq(true)
+  end
+
 end
