@@ -1,57 +1,37 @@
 require 'spec_helper'
 require_relative '../lib/board'
+require_relative '../lib/feedback'
 
 RSpec.describe Board do
 
-  let(:board) {Board.new(8)}
+  code_pattern = ["green", "blue", "purple", "yellow"]
+  let(:board) {Board.new(8, code_pattern)}
 
-  it "registers each colour given by codemaker" do
-    colour_choices = {1 => "green",
-                      2 => "blue",
-                      3 => "purple",
-                      4 => "yellow"
-                      }
-
-    colour_choices.each {|key, value| board.register_colour_pattern(value)}
-
-    expect(board.colour_pattern).to eq(["green", "blue", "purple", "yellow"])
-  end
-
-  it "registers a guess" do
+  it "registers a result containing guess and feedback" do
     guess = ["red", "blue", "yellow", "green"]
-    guess2 = ["red", "purple", "yellow", "orange"]
+    feedback = Feedback.new(1, 2)
+    result = [guess, [feedback]]
 
-    board.register_guess(guess)
-    board.register_guess(guess2)
+    board.keep_track_of_results(result)
 
-    expect(board.guesses).to eq ([["red", "blue", "yellow", "green"],
-                                  ["red", "purple", "yellow", "orange"]
-                                ])
-  end
-
-  it "registers feedback after each guess" do
-    feedback = ["red", "red", "white"]
-
-    board.register_feedback(feedback)
-
-    expect(board.all_feeback).to eq([["red", "red", "white"]])
+    expect(board.history).to eq ([[["red", "blue", "yellow", "green"], [feedback]]])
   end
 
   it "knows when game is over" do
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
-    board.register_guess(["blue", "blue", "blue", "blue"])
+    board.keep_track_of_results([[:guess1], [:feedback]])
+    board.keep_track_of_results([[:guess2], [:feedback2]])
+    board.keep_track_of_results([[:guess3], [:feedback3]])
+    board.keep_track_of_results([[:guess4], [:feedback4]])
+    board.keep_track_of_results([[:guess5], [:feedback5]])
+    board.keep_track_of_results([[:guess6], [:feedback6]])
+    board.keep_track_of_results([[:guess7], [:feedback7]])
+    board.keep_track_of_results([[:guess8], [:feedback8]])
 
     expect(board.game_over?).to eq(true)
   end
 
   it "knows when game is over" do
-    board.register_feedback([:red, :red, :red, :red])
+    board.keep_track_of_results([["green", "blue", "purple", "yellow"], [4, 0]])
 
     expect(board.game_over?).to eq(true)
   end

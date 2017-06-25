@@ -1,28 +1,30 @@
 class Board
 
-  attr_reader :colour_pattern, :guesses, :all_feeback
+  attr_reader :code_pattern, :history, :all_feeback
 
-  def initialize(rows)
+  def initialize(rows, code_pattern)
     @rows = rows
-    @colour_pattern = []
-    @guesses = []
+    @code_pattern = code_pattern
+    @history = []
     @all_feeback = []
   end
 
-  def register_colour_pattern(colour)
-    @colour_pattern.push(colour)
-  end
-
-  def register_guess(guess)
-    @guesses.push(guess)
-  end
-
-  def register_feedback(feedback)
-    @all_feeback.push(feedback)
+  def keep_track_of_results(result)
+    @history.push(result)
   end
 
   def game_over?
-    @guesses.size == @rows || @all_feeback.last == [:red, :red, :red, :red]
+    no_more_guesses? || all_red_pegs?
+  end
+
+  private
+
+  def no_more_guesses?
+    @history.size == @rows
+  end
+
+  def all_red_pegs?
+    @history.last[1][0] == 4
   end
 
 end
