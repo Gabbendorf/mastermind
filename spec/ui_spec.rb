@@ -1,11 +1,13 @@
 require 'spec_helper'
 require_relative '../lib/ui'
+require_relative '../lib/peg_colour'
 
 RSpec.describe Ui do
 
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
+  let(:peg_colour) {PegColour.new("blue")}
 
   it "prints the game logo" do
     output = double("output")
@@ -15,23 +17,14 @@ RSpec.describe Ui do
   end
 
   it "gets colour from codemaker for colour pattern" do
-    input = StringIO.new("green\n")
+    input = StringIO.new("grey\nviolet\ngreen\n")
     ui = Ui.new(input, output)
 
-    colour = ui.choose_pattern_colour
+    peg = ui.choose_code_pattern_colour(peg_colour.prepare_list)
 
-    expect(output.string).to include("Choose a colour for the pattern:")
-    expect(colour).to eq("green")
-  end
-
-  it "asks codemaker to repeat colour for colour pattern" do
-    input = StringIO.new("green")
-    ui = Ui.new(input, output)
-
-    colour = ui.repeat_pattern_colour
-
-    expect(output.string).to include("Colour not available, choose another colour:")
-    expect(colour).to eq("green")
+    expect(output.string).to include("Choose a colour from the following (colours can be repeated):")
+    expect(output.string).to include("green, pink, yellow, purple, blue, orange")
+    expect(peg.colour).to eq("green")
   end
 
   it "confirms computer chose a colour pattern" do

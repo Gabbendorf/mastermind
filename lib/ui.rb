@@ -1,3 +1,5 @@
+require 'peg_colour'
+
 class Ui
 
   def initialize(stdin, stdout)
@@ -17,14 +19,16 @@ class Ui
     @stdout.puts LOGO
   end
 
-  def choose_pattern_colour
-    @stdout.puts "Choose a colour for the pattern:"
-    @stdin.gets.chomp
-  end
-
-  def repeat_pattern_colour
-    @stdout.puts "Colour not available, choose another colour:"
-    @stdin.gets.chomp
+  def choose_code_pattern_colour(colours_list)
+    @stdout.puts "Choose a colour from the following (colours can be repeated):"
+    @stdout.puts colours_list
+    begin
+      colour = PegColour.new(@stdin.gets.chomp)
+    rescue => exception
+      @stdout.puts exception.message
+      colour = choose_code_pattern_colour(colours_list)
+    end
+    colour
   end
 
   def confirm_computer_chose_pattern
