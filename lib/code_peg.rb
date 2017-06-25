@@ -3,7 +3,7 @@ class CodePeg
   attr_reader :colours
 
   def initialize
-    @colours = ["green", "red", "yellow", "purple", "blue", "orange"]
+    @colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
   end
 
   def valid_colour(colour_chosen)
