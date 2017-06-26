@@ -24,6 +24,14 @@ class Board
     no_more_guesses? || all_red_pegs?
   end
 
+  def verdict
+    if no_more_guesses?
+      :lost
+    elsif all_red_pegs?
+      :won
+    end
+  end
+
   private
 
   def no_more_guesses?

@@ -69,4 +69,16 @@ RSpec.describe Ui do
                                       "GUESS: blue, blue, pink, green. FEEDBACK: 3 red peg/s, 0 white peg/s.\n")
   end
 
+  it "prings message for winner" do
+    ui.declare_winner(codebreaker.name)
+
+    expect(output.string).to include("Congratulations Gabriella: YOU WON!")
+  end
+
+  it "prings message for loser" do
+    ui.declare_loser(codebreaker.name)
+
+    expect(output.string).to include("Gabriella: GAME OVER!")
+  end
+
 end

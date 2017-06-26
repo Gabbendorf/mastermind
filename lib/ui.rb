@@ -55,4 +55,12 @@ class Ui
     end
   end
 
+  def declare_winner(player_name)
+    @stdout.puts "Congratulations #{player_name}: YOU WON! "
+  end
+
+  def declare_loser(player_name)
+    @stdout.puts "#{player_name}: GAME OVER!"
+  end
+
 end
