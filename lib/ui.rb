@@ -1,4 +1,4 @@
-require 'peg_colour'
+require 'colour_list'
 
 class Ui
 
@@ -20,7 +20,7 @@ class Ui
   end
 
   def choose_code_pattern_colour(colours_list)
-    @stdout.puts "Choose a colour from the following (colours can be repeated):"
+    @stdout.puts "Choose a colour to create the code pattern (colours can be repeated):"
     @stdout.puts colours_list
     begin
       colour = PegColour.new(@stdin.gets.chomp)
@@ -32,7 +32,19 @@ class Ui
   end
 
   def confirm_computer_chose_pattern
-    @stdout.puts "A code pattern is ready."
+    @stdout.puts "The code pattern is ready."
+  end
+
+  def make_guess(colours_list, player_name)
+    @stdout.puts "#{player_name}, make your guess: choose a colour (colours can be repeated)"
+    @stdout.puts colours_list
+    begin
+      colour = PegColour.new(@stdin.gets.chomp)
+    rescue => exception
+      @stdout.puts exception.message
+      colour = choose_code_pattern_colour(colours_list)
+    end
+    colour
   end
 
 end

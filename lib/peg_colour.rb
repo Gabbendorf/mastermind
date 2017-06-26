@@ -1,17 +1,14 @@
+require_relative 'colour_list'
+
 class PegColour
 
-  attr_reader :colours, :colour
+  attr_reader :colour
 
   def initialize(colour_string)
-    @colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
-    if !@colours.include?(colour_string)
+    if !ColourList.new.available_colours.include?(colour_string)
       raise("Invalid colour")
     end
     @colour = colour_string
-  end
-
-  def prepare_list
-    @colours.join(", ")
   end
 
 end

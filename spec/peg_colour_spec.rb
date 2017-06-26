@@ -11,8 +11,4 @@ RSpec.describe PegColour do
     expect{PegColour.new(colour)}.to raise_error("Invalid colour")
   end
 
-  it "prepares a list of strings to be printed for player" do
-    expect(peg_colour.prepare_list).to eq("green, pink, yellow, purple, blue, orange")
-  end
-
 end

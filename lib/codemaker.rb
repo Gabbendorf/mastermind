@@ -1,17 +1,17 @@
-require_relative 'peg_colour'
+require_relative 'colour_list'
 require_relative 'pattern'
 
 class Codemaker
 
-  def initialize(type, peg_colour, pattern_size)
+  def initialize(type, pattern_size)
     @type = type
-    @peg_colour = peg_colour
     @pattern_size = pattern_size
+    @list = ColourList.new
   end
 
   def create_code_pattern
     colours = []
-    @pattern_size.times {colours.push(@peg_colour.colours.sample)}
+    @pattern_size.times {colours.push(@list.available_colours.sample)}
     Pattern.new(colours)
   end
 

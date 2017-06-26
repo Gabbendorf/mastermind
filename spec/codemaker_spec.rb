@@ -1,11 +1,10 @@
 require 'spec_helper'
 require_relative '../lib/codemaker'
-require_relative '../lib/peg_colour'
 
 RSpec.describe Codemaker do
 
   let(:peg_colour) {PegColour.new("green")}
-  let(:codemaker) {Codemaker.new("computer", peg_colour, 4)}
+  let(:codemaker) {Codemaker.new("computer", 4)}
 
   it "creates a code pattern by choosing 4 numbers randomly" do
     available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
