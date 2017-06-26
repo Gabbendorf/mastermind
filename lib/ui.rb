@@ -1,4 +1,5 @@
 require 'colour_list'
+require 'board'
 
 class Ui
 
@@ -32,7 +33,7 @@ class Ui
   end
 
   def confirm_computer_chose_pattern
-    @stdout.puts "The code pattern is ready."
+    @stdout.puts "The code pattern is ready. The challenge begins!"
   end
 
   def make_guess(colours_list, player_name)
@@ -45,6 +46,13 @@ class Ui
       colour = choose_code_pattern_colour(colours_list)
     end
     colour
+  end
+
+  def print_history(history, board)
+    history.each do |result|
+      @stdout.puts "GUESS: " + board.printable_history(result)[:guess] + ". FEEDBACK: " + board.printable_history(result)[:red_pegs] +
+      " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s.\n"
+    end
   end
 
 end

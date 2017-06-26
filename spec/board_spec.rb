@@ -1,22 +1,41 @@
 require 'spec_helper'
 require_relative '../lib/board'
 require_relative '../lib/feedback'
+require_relative '../lib/pattern'
+require_relative '../lib/result'
 
 RSpec.describe Board do
 
-  let(:board) {Board.new(8, :pattern)}
+  let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
+
+  def set_up_result(colours, red, white)
+    guess = Pattern.new(colours)
+    feedback = Feedback.new(red, white)
+    Result.new(guess, feedback)
+  end
 
   it "registers a result containing guess and feedback" do
-    guess = ["red", "blue", "yellow", "green"]
-    feedback = Feedback.new(1, 2)
-    result = [guess, [feedback]]
+    result = set_up_result(["red", "blue", "yellow", "green"], 1, 2)
 
     board.keep_track_of_results(result)
 
-    expect(board.history).to eq ([[["red", "blue", "yellow", "green"], [feedback]]])
+    expect(board.history).to eq ([result])
   end
 
-  it "knows when game is over" do
+  it "returns strings in a hash for guess and feedback of each result" do
+    result = set_up_result(["green", "blue", "purple", "green"], 0, 3)
+    board.keep_track_of_results(result)
+
+    guess = board.printable_history(board.history[0])[:guess]
+    red_pegs = board.printable_history(board.history[0])[:red_pegs]
+    white_pegs = board.printable_history(board.history[0])[:white_pegs]
+
+    expect(guess).to eq("green, blue, purple, green")
+    expect(red_pegs).to eq("0")
+    expect(white_pegs).to eq("3")
+  end
+
+  it "knows game is over if player runs out of guesses" do
     board.keep_track_of_results([[:guess1], [:feedback]])
     board.keep_track_of_results([[:guess2], [:feedback2]])
     board.keep_track_of_results([[:guess3], [:feedback3]])
@@ -29,7 +48,7 @@ RSpec.describe Board do
     expect(board.game_over?).to eq(true)
   end
 
-  it "knows when game is over" do
+  it "knows game is over when feedback returns 4 white pegs" do
     board.keep_track_of_results([["green", "blue", "purple", "yellow"], [4, 0]])
 
     expect(board.game_over?).to eq(true)

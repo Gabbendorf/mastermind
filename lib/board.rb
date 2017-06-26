@@ -13,6 +13,13 @@ class Board
     @history.push(result)
   end
 
+  def printable_history(result)
+    {:guess => result.guess.colours.join(", "),
+     :red_pegs => result.feedback.red_pegs.to_s,
+     :white_pegs => result.feedback.white_pegs.to_s
+    }
+  end
+
   def game_over?
     no_more_guesses? || all_red_pegs?
   end
@@ -24,7 +31,8 @@ class Board
   end
 
   def all_red_pegs?
-    @history.last[1][0] == 4
+    red_pegs = @history.last[1][0]
+    red_pegs == 4
   end
 
 end
