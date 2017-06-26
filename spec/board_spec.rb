@@ -4,8 +4,7 @@ require_relative '../lib/feedback'
 
 RSpec.describe Board do
 
-  code_pattern = ["green", "blue", "purple", "yellow"]
-  let(:board) {Board.new(8, code_pattern)}
+  let(:board) {Board.new(8, :pattern)}
 
   it "registers a result containing guess and feedback" do
     guess = ["red", "blue", "yellow", "green"]

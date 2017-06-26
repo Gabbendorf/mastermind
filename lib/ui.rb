@@ -32,7 +32,7 @@ class Ui
   end
 
   def confirm_computer_chose_pattern
-    @stdout.puts "Computer chose a pattern."
+    @stdout.puts "A code pattern is ready."
   end
 
 end

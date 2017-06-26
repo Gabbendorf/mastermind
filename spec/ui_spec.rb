@@ -16,7 +16,7 @@ RSpec.describe Ui do
     ui.print_logo
   end
 
-  it "gets colour from codemaker for colour pattern" do
+  it "gets colour from codemaker for code pattern" do
     input = StringIO.new("grey\nviolet\ngreen\n")
     ui = Ui.new(input, output)
 
@@ -27,10 +27,10 @@ RSpec.describe Ui do
     expect(peg.colour).to eq("green")
   end
 
-  it "confirms computer chose a colour pattern" do
+  it "confirms computer chose a code pattern" do
     ui.confirm_computer_chose_pattern
 
-    expect(output.string).to include("Computer chose a pattern.")
+    expect(output.string).to include("A code pattern is ready.")
   end
 
 end
