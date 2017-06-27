@@ -51,7 +51,7 @@ class Ui
   end
 
   def print_history(history, board)
-    history.each do |result, index|
+    history.each do |result|
       @stdout.puts "GUESS: " + board.printable_history(result)[:guess] + ". FEEDBACK: " + board.printable_history(result)[:red_pegs] +
       " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s.\n"
     end
