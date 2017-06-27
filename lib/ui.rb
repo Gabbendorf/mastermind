@@ -1,5 +1,7 @@
-require 'colour_list'
-require 'board'
+require_relative 'colour_list'
+require_relative 'board'
+require_relative 'peg_colour'
+require_relative 'colour_list'
 
 class Ui
 
@@ -20,14 +22,14 @@ class Ui
     @stdout.puts LOGO
   end
 
-  def choose_code_pattern_colour(colours_list)
+  def choose_code_pattern_colour
     @stdout.puts "Choose a colour to create the code pattern (colours can be repeated):"
-    @stdout.puts colours_list
+    @stdout.puts ColourList.new.prepare_list
     begin
       colour = PegColour.new(@stdin.gets.chomp)
     rescue => exception
       @stdout.puts exception.message
-      colour = choose_code_pattern_colour(colours_list)
+      colour = choose_code_pattern_colour
     end
     colour
   end
@@ -36,20 +38,20 @@ class Ui
     @stdout.puts "The code pattern is ready. The challenge begins!"
   end
 
-  def make_guess(colours_list, player_name)
+  def make_guess(player_name)
     @stdout.puts "#{player_name}, make your guess: choose a colour (colours can be repeated)"
-    @stdout.puts colours_list
+    @stdout.puts ColourList.new.prepare_list
     begin
       colour = PegColour.new(@stdin.gets.chomp)
     rescue => exception
       @stdout.puts exception.message
-      colour = choose_code_pattern_colour(colours_list)
+      colour = choose_code_pattern_colour
     end
     colour
   end
 
   def print_history(history, board)
-    history.each do |result|
+    history.each do |result, index|
       @stdout.puts "GUESS: " + board.printable_history(result)[:guess] + ". FEEDBACK: " + board.printable_history(result)[:red_pegs] +
       " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s.\n"
     end

@@ -10,12 +10,11 @@ class Codebreaker
     @name = name
     @ui = ui
     @pattern_size = pattern_size
-    @list = ColourList.new
   end
 
   def make_guess
     guess = []
-    @pattern_size.times {guess.push(@ui.make_guess(@list.available_colours, @name))}
+    @pattern_size.times {guess.push(@ui.make_guess(@name))}
     Pattern.new(guess)
   end
 

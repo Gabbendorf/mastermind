@@ -42,7 +42,8 @@ RSpec.describe Board do
   end
 
   it "knows game is over when feedback returns 4 white pegs" do
-    board.keep_track_of_results([["green", "blue", "purple", "yellow"], [4, 0]])
+    result = set_up_result(["green", "blue", "purple", "yellow"], 4, 0)
+    board.keep_track_of_results(result)
 
     expect(board.game_over?).to eq(true)
   end
@@ -54,7 +55,8 @@ RSpec.describe Board do
   end
 
   it "returns :won if codebreaker guesses all 4 colours correctly" do
-    board.keep_track_of_results([["green", "blue", "purple", "yellow"], [4, 0]])
+    result = set_up_result(["green", "blue", "purple", "yellow"], 4, 0)
+    board.keep_track_of_results(result)
 
     expect(board.verdict).to eq(:won)
   end

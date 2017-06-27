@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :code_pattern, :history, :all_feeback
+  attr_reader :code_pattern, :history, :all_feeback, :red_pegs
 
   def initialize(rows, code_pattern)
     @rows = rows
@@ -21,13 +21,13 @@ class Board
   end
 
   def game_over?
-    no_more_guesses? || all_red_pegs?
+    no_more_guesses? || four_red_pegs?
   end
 
   def verdict
     if no_more_guesses?
       :lost
-    elsif all_red_pegs?
+    elsif four_red_pegs?
       :won
     end
   end
@@ -38,8 +38,8 @@ class Board
     @history.size == @rows
   end
 
-  def all_red_pegs?
-    red_pegs = @history.last[1][0]
+  def four_red_pegs?
+    red_pegs = @history.last.feedback.red_pegs
     red_pegs == 4
   end
 
