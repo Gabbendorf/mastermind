@@ -36,7 +36,7 @@ RSpec.describe Ui do
   it "confirms computer chose a code pattern" do
     ui.confirm_computer_chose_pattern
 
-    expect(output.string).to include("The code pattern is ready. The challenge begins!")
+    expect(output.string).to include("The code pattern is ready. The challenge begins!", "")
   end
 
   it "gets colour from codebreaker to make guess" do

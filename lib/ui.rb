@@ -36,8 +36,10 @@ class Ui
 
   def confirm_computer_chose_pattern
     @stdout.puts "The code pattern is ready. The challenge begins!"
+    @stdout.puts ""
   end
 
+  # TODO: fix bug: gets colour 5 times, 1st colour is not registered
   def make_guess(player_name)
     @stdout.puts "#{player_name}, make your guess: choose a colour (colours can be repeated)"
     @stdout.puts ColourList.new.prepare_list

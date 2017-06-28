@@ -11,4 +11,11 @@ RSpec.describe PegColour do
     expect{PegColour.new(colour)}.to raise_error("Invalid colour")
   end
 
+  it "returns players entered colour if valid" do
+    colour = "blue"
+    peg_colour = PegColour.new(colour)
+
+    expect(peg_colour.colour).to eq("blue")
+  end
+
 end
