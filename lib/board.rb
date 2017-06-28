@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :code_pattern, :history, :all_feeback, :red_pegs
+  attr_reader :code_pattern, :history, :all_feeback
 
   def initialize(rows, code_pattern)
     @rows = rows
@@ -14,7 +14,7 @@ class Board
   end
 
   def printable_history(result)
-    {:guess => result.guess.colours.join(", "),
+    {:guess => result.guess.colours.map {|peg_colour| peg_colour.colour}.join(", "),
      :red_pegs => result.feedback.red_pegs.to_s,
      :white_pegs => result.feedback.white_pegs.to_s
     }

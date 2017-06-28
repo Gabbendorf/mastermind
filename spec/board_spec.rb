@@ -3,26 +3,29 @@ require_relative '../lib/board'
 require_relative '../lib/feedback'
 require_relative '../lib/pattern'
 require_relative '../lib/result'
+require_relative '../lib/peg_colour'
 
 RSpec.describe Board do
 
   let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
 
-  def set_up_result(colours, red, white)
-    guess = Pattern.new(colours)
-    feedback = Feedback.new(red, white)
+  def set_up_result(colour_strings, red_pegs, white_pegs)
+    peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
+    guess = Pattern.new(peg_colours)
+    feedback = Feedback.new(red_pegs, white_pegs)
     Result.new(guess, feedback)
   end
 
+  # Not sure the expectation for this test is correct
   it "registers a result containing guess and feedback" do
-    result = set_up_result(["red", "blue", "yellow", "green"], 1, 2)
+    result = set_up_result(["green", "blue", "purple", "green"], 1, 2)
 
     board.keep_track_of_results(result)
 
     expect(board.history).to eq ([result])
   end
 
-  it "returns strings in a hash for guess and feedback of each result" do
+  it "returns strings as hash values for guess and feedback of each result" do
     result = set_up_result(["green", "blue", "purple", "green"], 0, 3)
     board.keep_track_of_results(result)
 
