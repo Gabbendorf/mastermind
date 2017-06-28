@@ -45,7 +45,8 @@ RSpec.describe Ui do
 
     peg = ui.make_guess(codebreaker.name)
 
-    expect(output.string).to include("Gabriella, make your guess: choose up to 4 colours (colours can be repeated)")
+    expect(output.string).to include("Gabriella, make your guess:")
+    expect(output.string).to include("choose one colour at a time up to 4 colours (colours can be repeated)")
     expect(output.string).to include("green, pink, yellow, purple, blue, orange")
     expect(peg.colour).to eq("green")
   end

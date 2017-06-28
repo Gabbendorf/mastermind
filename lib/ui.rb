@@ -40,7 +40,8 @@ class Ui
   end
 
   def make_guess(player_name)
-    @stdout.puts "#{player_name}, make your guess: choose up to 4 colours (colours can be repeated)"
+    @stdout.puts "#{player_name}, make your guess:"
+    @stdout.puts "choose one colour at a time up to 4 colours (colours can be repeated)"
     @stdout.puts ColourList.new.prepare_list
     begin
       colour = PegColour.new(@stdin.gets.chomp)
@@ -48,6 +49,7 @@ class Ui
       @stdout.puts exception.message
       colour = make_guess(player_name)
     end
+    @stdout.puts ""
     colour
   end
 

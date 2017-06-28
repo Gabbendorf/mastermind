@@ -1,8 +1,9 @@
 require 'spec_helper'
 require_relative '../lib/mastermind'
 require_relative '../lib/codemaker'
-require_relative '../lib/board'
+require_relative '../lib/codebreaker'
 require_relative '../lib/ui'
+require_relative '../lib/peg_colour'
 
 RSpec.describe Mastermind do
 
@@ -13,7 +14,7 @@ RSpec.describe Mastermind do
   let(:codebreaker) {Codebreaker.new("Gabriella", ui, 4)}
   let(:mastermind) {Mastermind.new(ui, codemaker, codebreaker)}
 
-  xit "runs a new game with computer as codemaker and human player as codebreaker" do
+  it "runs a new game with computer as codemaker and human player as codebreaker" do
     input = StringIO.new("green\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     codemaker = FakeCodemaker.new("computer", 4)
