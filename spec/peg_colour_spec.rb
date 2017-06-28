@@ -18,4 +18,11 @@ RSpec.describe PegColour do
     expect(peg_colour.colour).to eq("blue")
   end
 
+  it "returns players entered colour if valid but with capital letters" do
+    colour = "Blue"
+    peg_colour = PegColour.new(colour)
+
+    expect(peg_colour.colour).to eq("blue")
+  end
+
 end

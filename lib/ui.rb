@@ -39,24 +39,25 @@ class Ui
     @stdout.puts ""
   end
 
-  # TODO: fix bug: gets colour 5 times, 1st colour is not registered
   def make_guess(player_name)
-    @stdout.puts "#{player_name}, make your guess: choose a colour (colours can be repeated)"
+    @stdout.puts "#{player_name}, make your guess: choose up to 4 colours (colours can be repeated)"
     @stdout.puts ColourList.new.prepare_list
     begin
       colour = PegColour.new(@stdin.gets.chomp)
     rescue => exception
       @stdout.puts exception.message
-      colour = choose_code_pattern_colour
+      colour = make_guess(player_name)
     end
     colour
   end
 
   def print_history(history, board)
+    @stdout.puts ""
     history.each do |result|
       @stdout.puts "GUESS: " + board.printable_history(result)[:guess] + ". FEEDBACK: " + board.printable_history(result)[:red_pegs] +
       " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s.\n"
     end
+    @stdout.puts ""
   end
 
   def declare_winner(player_name)
