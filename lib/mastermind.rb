@@ -43,7 +43,7 @@ class Mastermind
 
   def end_of_game(board)
     game_verdict = board.verdict
-    game_verdict == :lost ? @ui.declare_loser : @ui.declare_winner
+    game_verdict == :lost ? @ui.declare_loser(@codebreaker.name) : @ui.declare_winner(@codebreaker.name)
   end
 
 end
