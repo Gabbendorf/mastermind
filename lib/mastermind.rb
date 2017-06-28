@@ -12,9 +12,10 @@ class Mastermind
     @codebreaker = codebreaker
   end
 
-  def start_game
-    set_up_game
-    end_of_game
+  def run_game
+    pattern = code_pattern
+    board = Board.new(8, pattern)
+    play(board, pattern)
   end
 
   private
@@ -26,9 +27,7 @@ class Mastermind
     pattern
   end
 
-  def set_up_game
-    pattern = code_pattern
-    board = Board.new(8, pattern)
+  def play(board, pattern)
     @ui.make_guess(@codebreaker.name)
     guess = @codebreaker.make_guess
     feedback = pattern.compare(guess.colours)
@@ -38,7 +37,7 @@ class Mastermind
     if board.game_over?
       end_of_game(board)
     else
-      set_up_game
+      play(board, pattern)
     end
   end
 
@@ -48,10 +47,3 @@ class Mastermind
   end
 
 end
-
-ui = Ui.new($stdin, $stdout)
-codemaker = Codemaker.new("computer", 4)
-codebreaker = Codebreaker.new("Gabriella", ui, 4)
-mastermind = Mastermind.new(ui, codemaker, codebreaker)
-
-mastermind.start_game
