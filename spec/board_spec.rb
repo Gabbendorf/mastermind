@@ -16,13 +16,12 @@ RSpec.describe Board do
     Result.new(guess, feedback)
   end
 
-  # Not sure the expectation for this test is correct
   it "registers a result containing guess and feedback" do
     result = set_up_result(["green", "blue", "purple", "green"], 1, 2)
 
     board.keep_track_of_results(result)
 
-    expect(board.history).to eq ([result])
+    expect(board.history).to eq([result])
   end
 
   it "returns strings as hash values for guess and feedback of each result" do

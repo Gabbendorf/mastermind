@@ -18,6 +18,7 @@ RSpec.describe Mastermind do
     input = StringIO.new("green\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     codemaker = FakeCodemaker.new("computer", 4)
+    codebreaker = Codebreaker.new("Gabriella", ui, 4)
     mastermind = Mastermind.new(ui, codemaker, codebreaker)
 
     mastermind.run_game

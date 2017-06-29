@@ -29,7 +29,7 @@ class Mastermind
 
   def play(board, pattern)
     guess = @codebreaker.make_guess
-    feedback = pattern.compare(guess.colours.map {|peg_colour| peg_colour.colour})
+    feedback = pattern.compare(guess)
     new_result = Result.new(guess, feedback)
     board.keep_track_of_results(new_result)
     @ui.print_history(board.history, board)

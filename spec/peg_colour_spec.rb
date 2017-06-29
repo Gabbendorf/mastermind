@@ -8,7 +8,7 @@ RSpec.describe PegColour do
   it "raises an error on instantiation if players enters invalid colour" do
     colour = "grey"
 
-    expect{PegColour.new(colour)}.to raise_error("Invalid colour")
+    expect{PegColour.new(colour)}.to raise_error("Invalid colour :(")
   end
 
   it "returns players entered colour if valid" do
