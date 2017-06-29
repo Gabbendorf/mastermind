@@ -33,6 +33,10 @@ class Mastermind
     new_result = Result.new(guess, feedback)
     board.keep_track_of_results(new_result)
     @ui.print_history(board.history, board)
+    next_move(board, pattern)
+  end
+
+  def next_move(board, pattern)
     if board.game_over?
       end_of_game(board)
     else
