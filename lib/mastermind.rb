@@ -1,15 +1,17 @@
-require 'ui'
-require 'computer'
-require 'human_player'
-require 'board'
-require 'result'
+require_relative 'ui'
+require_relative 'computer'
+require_relative 'human_player'
+require_relative 'board'
+require_relative 'result'
+require_relative 'players'
 
 class Mastermind
 
-  def initialize(ui, codemaker, codebreaker)
+  def initialize(ui, players)
     @ui = ui
-    @codemaker = codemaker
-    @codebreaker = codebreaker
+    @players = players
+    # @codemaker = codemaker
+    # @codebreaker = codebreaker
   end
 
   def run_game
@@ -22,13 +24,15 @@ class Mastermind
 
   def code_pattern
     @ui.print_logo
-    pattern = @codemaker.create_code_pattern
+    codemaker = @players.codemaker(@ui.choose_codemaker)
+    pattern = codemaker.create_code_pattern
     @ui.confirm_computer_chose_pattern
     pattern
   end
 
   def play(board, pattern)
-    guess = @codebreaker.make_guess
+    codebreaker = @players.codebreaker(@ui.choose_codebreaker)
+    guess = codebreaker.make_guess
     feedback = pattern.compare(guess)
     new_result = Result.new(guess, feedback)
     board.keep_track_of_results(new_result)

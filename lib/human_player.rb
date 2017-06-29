@@ -1,6 +1,6 @@
-require 'ui'
-require 'pattern'
-require 'colour_list'
+require_relative 'ui'
+require_relative 'pattern'
+require_relative 'colour_list'
 
 class HumanPlayer
 

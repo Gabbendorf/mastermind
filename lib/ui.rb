@@ -22,6 +22,16 @@ class Ui
     @stdout.puts LOGO
   end
 
+  def choose_codemaker
+    @stdout.puts "Select the codemaker (computer or human player)"
+    @stdin.gets.chomp
+  end
+
+  def choose_codebreaker
+    @stdout.puts "Select the codebreaker (computer or human player)"
+    @stdin.gets.chomp
+  end
+
   def choose_code_pattern_colour
     @stdout.puts "Choose a colour to create the code pattern (colours can be repeated):"
     @stdout.puts ColourList.new.prepare_list

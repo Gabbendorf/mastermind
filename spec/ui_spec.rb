@@ -1,11 +1,11 @@
 require 'spec_helper'
-require_relative '../lib/ui'
-require_relative '../lib/human_player'
-require_relative '../lib/pattern'
-require_relative '../lib/result'
-require_relative '../lib/feedback'
-require_relative '../lib/board'
-require_relative '../lib/peg_colour'
+require 'ui'
+require 'human_player'
+require 'pattern'
+require 'result'
+require 'feedback'
+require 'board'
+require 'peg_colour'
 
 RSpec.describe Ui do
 
@@ -18,11 +18,33 @@ RSpec.describe Ui do
   it "prints the game logo" do
     output = double("output")
     ui = Ui.new(input, output)
+
     expect(output).to receive(:puts).with(Ui::LOGO)
+
     ui.print_logo
   end
 
-  it "gets colour from codemaker for code pattern" do
+  it "asks who's the codemaker" do
+    input = StringIO.new("computer\n")
+    ui = Ui.new(input, output)
+
+    codemaker = ui.choose_codemaker
+
+    expect(output.string).to eq("Select the codemaker (computer or human player)\n")
+    expect(codemaker).to eq("computer")
+  end
+
+  it "asks who's the codebreaker" do
+    input = StringIO.new("human player\n")
+    ui = Ui.new(input, output)
+
+    codemaker = ui.choose_codebreaker
+
+    expect(output.string).to eq("Select the codebreaker (computer or human player)\n")
+    expect(codemaker).to eq("human player")
+  end
+
+  it "gets colour from human codemaker for code pattern" do
     input = StringIO.new("grey\nviolet\ngreen\n")
     ui = Ui.new(input, output)
 

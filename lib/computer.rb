@@ -1,8 +1,10 @@
-require 'colour_list'
-require 'pattern'
-require 'peg_colour'
+require_relative 'colour_list'
+require_relative 'pattern'
+require_relative 'peg_colour'
 
 class Computer
+
+  attr_reader :type
 
   def initialize(type, pattern_size)
     @type = type
