@@ -10,7 +10,7 @@ RSpec.describe HumanPlayer do
   let(:ui) {Ui.new(input, output)}
   let(:peg_colour) {PegColour.new("green")}
 
-  it "is the codemaker and creates code pattern" do
+  it "is the codemaker and creates code pattern w/ 4 colours" do
     input = StringIO.new("green\ngrey\nyellow\npink\nblue")
     ui = Ui.new(input, output)
     codemaker = HumanPlayer.new("Gabriella", ui, 4)
@@ -28,7 +28,7 @@ RSpec.describe HumanPlayer do
     expect(colour4).to eq("blue")
   end
 
-  it "is the codebreaker and makes guesses" do
+  it "is the codebreaker and makes guess w/ 4 colours" do
     input = StringIO.new("green\ngrey\nyellow\npink\nblue")
     ui = Ui.new(input, output)
     human = HumanPlayer.new("Gabriella", ui, 4)

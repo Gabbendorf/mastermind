@@ -1,8 +1,8 @@
-require_relative 'ui'
-require_relative 'codemaker'
-require_relative 'human_player'
-require_relative 'board'
-require_relative 'result'
+require 'ui'
+require 'computer'
+require 'human_player'
+require 'board'
+require 'result'
 
 class Mastermind
 

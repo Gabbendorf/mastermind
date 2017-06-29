@@ -1,6 +1,6 @@
 require 'spec_helper'
 require_relative '../lib/mastermind'
-require_relative '../lib/codemaker'
+require_relative '../lib/computer'
 require_relative '../lib/human_player'
 require_relative '../lib/ui'
 require_relative '../lib/peg_colour'
@@ -11,7 +11,7 @@ RSpec.describe Mastermind do
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
-  let(:codemaker) {Codemaker.new("computer", 4)}
+  let(:codemaker) {Computer.new("computer", 4)}
   let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
   let(:mastermind) {Mastermind.new(ui, codemaker, codebreaker)}
 

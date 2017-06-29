@@ -1,8 +1,8 @@
-require_relative 'colour_list'
-require_relative 'pattern'
-require_relative 'peg_colour'
+require 'colour_list'
+require 'pattern'
+require 'peg_colour'
 
-class Codemaker
+class Computer
 
   def initialize(type, pattern_size)
     @type = type
@@ -14,6 +14,12 @@ class Codemaker
     colours = []
     @pattern_size.times {colours.push(PegColour.new(@list.available_colours.sample))}
     Pattern.new(colours)
+  end
+
+  def make_guess
+    guess = []
+    @pattern_size.times {guess.push(PegColour.new(@list.available_colours.sample))}
+    Pattern.new(guess)
   end
 
 end
