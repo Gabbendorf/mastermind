@@ -1,15 +1,20 @@
 require 'spec_helper'
 require_relative '../lib/pattern'
 require_relative '../lib/feedback'
+require_relative '../lib/peg_colour'
 
 RSpec.describe Pattern do
-
-  let(:pattern) {Pattern.new(["yellow", "blue", "purple", "green"])}
 
   def set_up_guess(colour_strings)
     peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
     Pattern.new(peg_colours)
   end
+
+  def peg_colours(colour_strings)
+    colour_strings.map {|colour| PegColour.new(colour)}
+  end
+
+  let(:pattern) {Pattern.new(peg_colours(["yellow", "blue", "purple", "green"]))}
 
   it "returns feedback with 0 red pegs and 0 white peg for no common colours" do
     guess = set_up_guess(["orange", "orange", "pink", "pink"])

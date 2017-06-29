@@ -10,10 +10,10 @@ RSpec.describe Codemaker do
 
     pattern = codemaker.create_code_pattern
 
-    colour1 = pattern.colours[0]
-    colour2 = pattern.colours[1]
-    colour3 = pattern.colours[2]
-    colour4 = pattern.colours[3]
+    colour1 = pattern.colours[0].colour
+    colour2 = pattern.colours[1].colour
+    colour3 = pattern.colours[2].colour
+    colour4 = pattern.colours[3].colour
 
     expect(available_colours).to include(colour1, colour2, colour3, colour4)
   end

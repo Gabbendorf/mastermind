@@ -4,6 +4,7 @@ require_relative '../lib/codemaker'
 require_relative '../lib/codebreaker'
 require_relative '../lib/ui'
 require_relative '../lib/peg_colour'
+require_relative '../lib/pattern'
 
 RSpec.describe Mastermind do
 
@@ -28,8 +29,6 @@ RSpec.describe Mastermind do
 
 end
 
-require_relative '../lib/pattern'
-
 class FakeCodemaker
 
   def initialize(type, pattern_size)
@@ -40,7 +39,7 @@ class FakeCodemaker
 
   def create_code_pattern
     colours = []
-    @pattern_size.times {colours.push(@available_colours.pop)}
+    @pattern_size.times {colours.push(PegColour.new(@available_colours.pop))}
     Pattern.new(colours)
   end
 
