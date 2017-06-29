@@ -17,7 +17,6 @@ If there are duplicate colours in the guess, they cannot all be awarded a key pe
 ## When does the game end
 
 Once feedback is provided, another guess is made; guesses and feedback continue to alternate until either the codebreaker guesses correctly, or eight incorrect guesses are made.
-The codemaker gets one point for each guess a codebreaker makes. An extra point is earned by the codemaker if the codebreaker doesn't guess the pattern exactly in the last guess. The winner is the one who has the most points after the agreed-upon number of games are played.
 
 ### How to run the tests from terminal:
 
