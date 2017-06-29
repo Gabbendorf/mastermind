@@ -1,6 +1,6 @@
 require_relative 'ui'
 require_relative 'codemaker'
-require_relative 'codebreaker'
+require_relative 'human_player'
 require_relative 'board'
 require_relative 'result'
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require_relative '../lib/ui'
-require_relative '../lib/codebreaker'
+require_relative '../lib/human_player'
 require_relative '../lib/pattern'
 require_relative '../lib/result'
 require_relative '../lib/feedback'
@@ -12,7 +12,7 @@ RSpec.describe Ui do
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
-  let(:codebreaker) {Codebreaker.new("Gabriella", ui, 4)}
+  let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
   let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
 
   it "prints the game logo" do

@@ -1,6 +1,6 @@
-require_relative 'ui'
-require_relative 'pattern'
-require_relative 'colour_list'
+require 'ui'
+require 'pattern'
+require 'colour_list'
 
 class HumanPlayer
 
@@ -14,7 +14,7 @@ class HumanPlayer
 
   def create_code_pattern
     peg_colours = []
-    @pattern_size.times {peg_colours.push(PegColour.new(@ui.choose_code_pattern_colour))}
+    @pattern_size.times {peg_colours.push(@ui.choose_code_pattern_colour)}
     Pattern.new(peg_colours)
   end
 
