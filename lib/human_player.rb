@@ -2,7 +2,7 @@ require_relative 'ui'
 require_relative 'pattern'
 require_relative 'colour_list'
 
-class Codebreaker
+class HumanPlayer
 
   attr_reader :name
 
@@ -10,6 +10,12 @@ class Codebreaker
     @name = name
     @ui = ui
     @pattern_size = pattern_size
+  end
+
+  def create_code_pattern
+    peg_colours = []
+    @pattern_size.times {peg_colours.push(PegColour.new(@ui.choose_code_pattern_colour))}
+    Pattern.new(peg_colours)
   end
 
   def make_guess
