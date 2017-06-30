@@ -6,8 +6,9 @@ class Computer
 
   attr_reader :type
 
-  def initialize(type, pattern_size)
+  def initialize(type, ui, pattern_size)
     @type = type
+    @ui = ui
     @pattern_size = pattern_size
     @list = ColourList.new
   end
@@ -15,6 +16,7 @@ class Computer
   def create_code_pattern
     colours = []
     @pattern_size.times {colours.push(PegColour.new(@list.available_colours.sample))}
+    @ui.confirm_computer_chose_pattern
     Pattern.new(colours)
   end
 

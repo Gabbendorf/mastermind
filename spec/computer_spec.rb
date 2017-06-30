@@ -3,7 +3,10 @@ require 'computer'
 
 RSpec.describe Computer do
 
-  let(:codemaker) {Computer.new("computer", 4)}
+  let(:input) {StringIO.new}
+  let(:output) {StringIO.new}
+  let(:ui) {Ui.new(input, output)}
+  let(:codemaker) {Computer.new("computer", ui, 4)}
 
   it "is the codemaker and creates code pattern w/ 4 colours randomly" do
     available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]

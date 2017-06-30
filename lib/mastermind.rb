@@ -10,8 +10,6 @@ class Mastermind
   def initialize(ui, players)
     @ui = ui
     @players = players
-    # @codemaker = codemaker
-    # @codebreaker = codebreaker
   end
 
   def run_game
@@ -26,7 +24,6 @@ class Mastermind
     @ui.print_logo
     codemaker = @players.codemaker(@ui.choose_codemaker)
     pattern = codemaker.create_code_pattern
-    @ui.confirm_computer_chose_pattern
     pattern
   end
 

@@ -11,16 +11,14 @@ RSpec.describe Mastermind do
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
-  let(:codemaker) {Computer.new("computer", 4)}
-  let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
-  let(:mastermind) {Mastermind.new(ui, codemaker, codebreaker)}
+  let(:players) {Players.new(ui)}
+  let(:mastermind) {Mastermind.new(ui, players)}
 
-  xit "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("green\npink\nyellow\ngrey\npurple\norange\nblue\npurple\nyellow\n")
+  it "runs a new game with computer as codemaker and human player as codebreaker" do
+    input = StringIO.new("computer\nhuman player\ngreen\npink\nyellow\ngrey\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
-    codemaker = FakeCodemaker.new("computer", 4)
-    codebreaker = HumanPlayer.new("Gabriella", ui, 4)
-    mastermind = Mastermind.new(ui, codemaker, codebreaker)
+    players = FakePlayers.new(ui)
+    mastermind = Mastermind.new(ui, players)
 
     mastermind.run_game
 
@@ -29,10 +27,11 @@ RSpec.describe Mastermind do
 
 end
 
-class FakeCodemaker
+class FakeComputer
 
-  def initialize(type, pattern_size)
+  def initialize(type, ui, pattern_size)
     @type = type
+    @ui = ui
     @pattern_size = pattern_size
     @available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
   end
@@ -40,7 +39,33 @@ class FakeCodemaker
   def create_code_pattern
     colours = []
     @pattern_size.times {colours.push(PegColour.new(@available_colours.pop))}
+    @ui.confirm_computer_chose_pattern
     Pattern.new(colours)
   end
 
+end
+
+require_relative '../lib/human_player'
+
+class  FakePlayers
+
+  def initialize(ui)
+    @ui = ui
+  end
+
+  def codemaker(input)
+    if input == "computer"
+      FakeComputer.new("computer", @ui, 4)
+    elsif input == "human player"
+      HumanPlayer.new("Gabriella", @ui, 4)
+    end
+  end
+
+  def codebreaker(input)
+    if input == "computer"
+      FakeComputer.new("computer", @ui, 4)
+    elsif input == "human player"
+      HumanPlayer.new("Gabriella", @ui, 4)
+    end
+  end
 end
