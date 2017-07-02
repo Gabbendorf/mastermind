@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'computer'
+require 'ui'
 
 RSpec.describe Computer do
 

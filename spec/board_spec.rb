@@ -7,7 +7,7 @@ require_relative '../lib/peg_colour'
 
 RSpec.describe Board do
 
-  let(:pattern) { double }
+  let(:pattern) {double}
   let(:board) {Board.new(8, pattern)}
 
   def set_up_result(red_pegs, white_pegs)
