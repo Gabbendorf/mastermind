@@ -53,13 +53,15 @@ RSpec.describe Board do
     expect(white_pegs).to eq("2")
   end
 
-  it "knows game is over if player runs out of the 8 possible guesses" do
-    8.times {board.keep_track_of_results([[:guess], [:feedback]])}
+  it "knows game is over if codebreaker runs out of the 8 possible guesses" do
+    losing_result = set_up_result(1, 2)
+
+    8.times {board.keep_track_of_results(losing_result)}
 
     expect(board.game_over?).to eq(true)
   end
 
-  it "knows game is over when feedback returns 4 red pegs" do
+  it "knows game is over when feedback returns 4 red pegs for guess" do
     red_pegs = 4
     white_pegs = 0
     result = set_up_result(red_pegs, white_pegs)
@@ -69,15 +71,28 @@ RSpec.describe Board do
     expect(board.game_over?).to eq(true)
   end
 
-  it "returns :codemaker_wins if 8 chances to guess ran out" do
-    8.times {board.keep_track_of_results([[:guess], [:feedback]])}
+  it "returns :codemaker_wins if codebreaker runs out of 8 possible guesses" do
+    losing_result = set_up_result(1, 3)
+
+    8.times {board.keep_track_of_results(losing_result)}
 
     expect(board.verdict).to eq(:codemaker_wins)
   end
 
-  it "returns :codebreaker_wins if codebreaker guesses all 4 colours correctly" do
-    result = set_up_result(4, 0)
-    board.keep_track_of_results(result)
+  it "returns :codebreaker_wins if codebreaker guesses all 4 pattern colours correctly" do
+    winning_result = set_up_result(4, 0)
+
+    board.keep_track_of_results(winning_result)
+
+    expect(board.verdict).to eq(:codebreaker_wins)
+  end
+
+  it "returns :codebreaker_wins if codebreaker guesses correctly at 8th attempt" do
+    losing_result = set_up_result(3, 0)
+    winning_result = set_up_result(4, 0)
+
+    7.times {board.keep_track_of_results(losing_result)}
+    1.times {board.keep_track_of_results(winning_result)}
 
     expect(board.verdict).to eq(:codebreaker_wins)
   end
