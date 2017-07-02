@@ -10,7 +10,7 @@ class Players
 
   def codemaker(input)
     if input == "computer"
-      Computer.new("computer", @ui, 4)
+      Computer.new("computer", 4)
     elsif input == "human player"
       HumanPlayer.new("Gabriella", @ui, 4)
     else
@@ -20,7 +20,7 @@ class Players
 
   def codebreaker(input)
     if input == "computer"
-      Computer.new("computer", @ui, 4)
+      Computer.new("computer", 4)
     elsif input == "human player"
       HumanPlayer.new("Gabriella", @ui, 4)
     else

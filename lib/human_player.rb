@@ -12,9 +12,9 @@ class HumanPlayer
     @pattern_size = pattern_size
   end
 
-  def create_code_pattern
+  def create_code_pattern(ui)
     peg_colours = []
-    @pattern_size.times {peg_colours.push(@ui.choose_code_pattern_colour)}
+    @pattern_size.times {peg_colours.push(ui.choose_code_pattern_colour)}
     Pattern.new(peg_colours)
   end
 

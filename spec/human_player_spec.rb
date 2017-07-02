@@ -12,7 +12,7 @@ RSpec.describe HumanPlayer do
     ui = Ui.new(input, output)
     codemaker = HumanPlayer.new("Gabriella", ui, 4)
 
-    code_pattern = codemaker.create_code_pattern
+    code_pattern = codemaker.create_code_pattern(ui)
 
     code_pattern_colours = code_pattern.colours.map(&:colour)
     expect(code_pattern_colours).to match_array(input_colours)
