@@ -24,12 +24,22 @@ class Ui
 
   def choose_codemaker
     @stdout.puts "Select the codemaker (computer or human player)"
-    @stdin.gets.chomp
+    begin
+      codemaker = @stdin.gets.chomp
+    rescue => exception
+      @stdout.puts exception.message
+      codemaker = choose_codemaker
+    end
   end
 
   def choose_codebreaker
     @stdout.puts "Select the codebreaker (computer or human player)"
-    @stdin.gets.chomp
+    begin
+      codebreaker = @stdin.gets.chomp
+    rescue => exception
+      @stdout.puts exception.message
+      codebreaker = choose_codebreaker
+    end
   end
 
   def choose_code_pattern_colour
