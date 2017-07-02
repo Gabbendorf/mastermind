@@ -14,7 +14,7 @@ RSpec.describe Mastermind do
   let(:players) {Players.new(ui)}
   let(:mastermind) {Mastermind.new(ui, players)}
 
-  it "runs a new game with computer as codemaker and human player as codebreaker" do
+  xit "runs a new game with computer as codemaker and human player as codebreaker" do
     input = StringIO.new("computer\nhuman player\ngreen\npink\nyellow\ngrey\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
