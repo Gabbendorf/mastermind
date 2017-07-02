@@ -25,7 +25,18 @@ RSpec.describe Ui do
     ui.print_logo
   end
 
-  it "asks who the codemaker is" do
+  it "asks for codemaker and raises error message if input is wrong" do
+    input = StringIO.new("robot\ncomputer")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codemaker = ui.choose_codemaker(players)
+
+    expect(output.string).to eq("Select the codemaker (computer or human player)\nI didn't understand :(\nSelect the codemaker (computer or human player)\n")
+    expect(codemaker.name).to eq("computer-codemaker")
+  end
+
+  it "asks for codemaker and returns instance of it" do
     input = StringIO.new("computer\n")
     ui = Ui.new(input, output)
     players = Players.new(ui)
@@ -36,7 +47,18 @@ RSpec.describe Ui do
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
-  it "asks who the codebreaker is" do
+  it "asks for codebreaker and raises error message if input is wrong" do
+    input = StringIO.new("human\nhuman player\nGabi")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codebreaker = ui.choose_codebreaker(players)
+
+    expect(output.string).to eq("Select the codebreaker (computer or human player)\nI didn't understand :(\nSelect the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(codebreaker.name).to eq("Gabi")
+  end
+
+  it "asks for codebreaker and returns instance of it" do
     input = StringIO.new("human player\nGabi")
     ui = Ui.new(input, output)
     players = Players.new(ui)
@@ -57,8 +79,18 @@ RSpec.describe Ui do
     expect(name).to eq("Gabriella")
   end
 
-  it "gets colour from human codemaker for code pattern" do
-    input = StringIO.new("grey\nviolet\ngreen\n")
+  it "asks for colour from human codemaker for code pattern and raises error message if wrong input" do
+    input = StringIO.new("grey\ngreen")
+    ui = Ui.new(input, output)
+
+    peg = ui.choose_code_pattern_colour
+
+    expect(output.string).to eq("Choose a colour to create the code pattern (colours can be repeated):\ngreen, pink, yellow, purple, blue, orange\nInvalid colour :(\nChoose a colour to create the code pattern (colours can be repeated):\ngreen, pink, yellow, purple, blue, orange\n")
+    expect(peg.colour).to eq("green")
+  end
+
+  it "gets colour from human codemaker for code pattern and returns istance of it" do
+    input = StringIO.new("green\n")
     ui = Ui.new(input, output)
 
     peg = ui.choose_code_pattern_colour
