@@ -12,7 +12,7 @@ class Players
     if input == "computer"
       Computer.new("computer", 4)
     elsif input == "human player"
-      HumanPlayer.new("Gabriella", @ui, 4)
+      HumanPlayer.new(@ui.ask_human_player_name, @ui, 4)
     else
       raise("I didn't understand :(")
     end
@@ -22,7 +22,7 @@ class Players
     if input == "computer"
       Computer.new("computer", 4)
     elsif input == "human player"
-      HumanPlayer.new("Gabriella", @ui, 4)
+      HumanPlayer.new(@ui.ask_human_player_name, @ui, 4)
     else
       raise("I didn't understand :(")
     end

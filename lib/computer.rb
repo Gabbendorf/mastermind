@@ -4,10 +4,10 @@ require_relative 'peg_colour'
 
 class Computer
 
-  attr_reader :type
+  attr_reader :name
 
-  def initialize(type, pattern_size)
-    @type = type
+  def initialize(name, pattern_size)
+    @name = name
     @pattern_size = pattern_size
     @list = ColourList.new
   end

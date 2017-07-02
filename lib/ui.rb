@@ -42,6 +42,11 @@ class Ui
     end
   end
 
+  def ask_human_player_name
+    @stdout.puts "Enter your name:"
+    @stdin.gets.chomp
+  end
+
   def choose_code_pattern_colour
     @stdout.puts "Choose a colour to create the code pattern (colours can be repeated):"
     @stdout.puts ColourList.new.prepare_list
@@ -82,12 +87,12 @@ class Ui
     @stdout.puts ""
   end
 
-  def declare_winner(player_name)
-    @stdout.puts "Congratulations #{player_name}: YOU WON! "
+  def codemaker_is_winner(codemaker_name)
+    @stdout.puts "#{codemaker_name} wins!"
   end
 
-  def declare_loser(player_name)
-    @stdout.puts "#{player_name}: GAME OVER!"
+  def codebreaker_is_winner(codebreaker_name)
+    @stdout.puts "#{codebreaker_name} wins!"
   end
 
 end

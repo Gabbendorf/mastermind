@@ -26,9 +26,9 @@ class Board
 
   def verdict
     if no_more_guesses?
-      :lost
+      :codemaker_wins
     elsif four_red_pegs?
-      :won
+      :codebreaker_wins
     end
   end
 

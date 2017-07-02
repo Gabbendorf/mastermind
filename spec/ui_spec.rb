@@ -44,6 +44,16 @@ RSpec.describe Ui do
     expect(codemaker).to eq("human player")
   end
 
+  it "asks for name for human player" do
+    input = StringIO.new("Gabriella\n")
+    ui = Ui.new(input, output)
+
+    name = ui.ask_human_player_name
+
+    expect(output.string).to eq("Enter your name:\n")
+    expect(name).to eq("Gabriella")
+  end
+
   it "gets colour from human codemaker for code pattern" do
     input = StringIO.new("grey\nviolet\ngreen\n")
     ui = Ui.new(input, output)
@@ -92,16 +102,20 @@ RSpec.describe Ui do
                                       "GUESS: blue, blue, pink, green. FEEDBACK: 3 red peg/s, 0 white peg/s.\n", "")
   end
 
-  it "prings message for winner" do
-    ui.declare_winner(codebreaker.name)
+  it "prints message for codemaker winner" do
+    codemaker = HumanPlayer.new("Gabriella", ui, 4)
 
-    expect(output.string).to include("Congratulations Gabriella: YOU WON!")
+    ui.codemaker_is_winner(codemaker.name)
+
+    expect(output.string).to include("Gabriella wins!")
   end
 
-  it "prings message for loser" do
-    ui.declare_loser(codebreaker.name)
+  it "prints message for codebreaker winner" do
+    codebreaker = Computer.new("computer", 4)
 
-    expect(output.string).to include("Gabriella: GAME OVER!")
+    ui.codebreaker_is_winner(codebreaker.name)
+
+    expect(output.string).to include("computer wins!")
   end
 
 end

@@ -23,7 +23,7 @@ class Mastermind
   def code_pattern
     @ui.print_logo
     codemaker = @players.codemaker(@ui.choose_codemaker)
-    pattern = codemaker.create_code_pattern
+    pattern = codemaker.create_code_pattern(@ui)
     pattern
   end
 
@@ -34,20 +34,20 @@ class Mastermind
     new_result = Result.new(guess, feedback)
     board.keep_track_of_results(new_result)
     @ui.print_history(board.history, board)
-    next_move(board, pattern)
+    next_move(board, pattern, codemaker.name, codebreaker.name)
   end
 
-  def next_move(board, pattern)
+  def next_move(board, pattern, codemaker_name, codebreaker_name)
     if board.game_over?
-      end_of_game(board)
+      end_of_game(board, codemaker_name, codebreaker_name)
     else
       play(board, pattern)
     end
   end
 
-  def end_of_game(board)
+  def end_of_game(board, codemaker_name, codebreaker_name)
     game_verdict = board.verdict
-    game_verdict == :lost ? @ui.declare_loser(@codebreaker.name) : @ui.declare_winner(@codebreaker.name)
+    game_verdict == :codemaker_wins ? @ui.codemaker_is_winner(codemaker_name) : @ui.codebreaker_is_winner(codebreaker_name)
   end
 
 end

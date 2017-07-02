@@ -69,17 +69,17 @@ RSpec.describe Board do
     expect(board.game_over?).to eq(true)
   end
 
-  it "returns :lost if 8 chances to guess ran out" do
+  it "returns :codemaker_wins if 8 chances to guess ran out" do
     8.times {board.keep_track_of_results([[:guess], [:feedback]])}
 
-    expect(board.verdict).to eq(:lost)
+    expect(board.verdict).to eq(:codemaker_wins)
   end
 
-  it "returns :won if codebreaker guesses all 4 colours correctly" do
+  it "returns :codebreaker_wins if codebreaker guesses all 4 colours correctly" do
     result = set_up_result(4, 0)
     board.keep_track_of_results(result)
 
-    expect(board.verdict).to eq(:won)
+    expect(board.verdict).to eq(:codebreaker_wins)
   end
 
 end

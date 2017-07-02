@@ -3,7 +3,7 @@ require 'ui'
 
 RSpec.describe Players do
 
-  let(:input) {StringIO.new}
+  let(:input) {StringIO.new("Gabriella\n")}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
   let(:players) {Players.new(ui)}
@@ -15,17 +15,17 @@ RSpec.describe Players do
   end
 
   it "creates computer codemaker" do
-    choice = "computer"
+    input = "computer"
 
-    codemaker = players.codemaker(choice)
+    codemaker = players.codemaker(input)
 
-    expect(codemaker.type).to eq("computer")
+    expect(codemaker.name).to eq("computer")
   end
 
   it "creates human player codemaker" do
-    choice = "human player"
+    input = "human player"
 
-    codemaker = players.codemaker(choice)
+    codemaker = players.codemaker(input)
 
     expect(codemaker.name).to eq("Gabriella")
   end
@@ -41,7 +41,7 @@ RSpec.describe Players do
 
     codebreaker = players.codebreaker(input)
 
-    expect(codebreaker.type).to eq("computer")
+    expect(codebreaker.name).to eq("computer")
   end
 
   it "creates human player codebreaker" do

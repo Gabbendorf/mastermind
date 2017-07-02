@@ -8,14 +8,14 @@ require_relative '../lib/pattern'
 
 RSpec.describe Mastermind do
 
-  let(:input) {StringIO.new}
+  # let(:input) {StringIO.new}
   let(:output) {StringIO.new}
-  let(:ui) {Ui.new(input, output)}
-  let(:players) {Players.new(ui)}
-  let(:mastermind) {Mastermind.new(ui, players)}
+  # let(:ui) {Ui.new(input, output)}
+  # let(:players) {Players.new(ui)}
+  # let(:mastermind) {Mastermind.new(ui, players)}
 
-  xit "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("computer\nhuman player\ngreen\npink\nyellow\ngrey\npurple\norange\nblue\npurple\nyellow\n")
+  it "runs a new game with computer as codemaker and human player as codebreaker" do
+    input = StringIO.new("computer\nhuman player\ngreen\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -29,17 +29,18 @@ end
 
 class FakeComputer
 
-  def initialize(type, ui, pattern_size)
-    @type = type
-    @ui = ui
+  attr_reader :name
+
+  def initialize(name, pattern_size)
+    @name = name
     @pattern_size = pattern_size
     @available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
   end
 
-  def create_code_pattern
+  def create_code_pattern(ui)
     colours = []
     @pattern_size.times {colours.push(PegColour.new(@available_colours.pop))}
-    @ui.confirm_computer_chose_pattern
+    ui.confirm_computer_chose_pattern
     Pattern.new(colours)
   end
 
@@ -55,7 +56,7 @@ class  FakePlayers
 
   def codemaker(input)
     if input == "computer"
-      FakeComputer.new("computer", @ui, 4)
+      FakeComputer.new("computer", 4)
     elsif input == "human player"
       HumanPlayer.new("Gabriella", @ui, 4)
     end
@@ -63,7 +64,7 @@ class  FakePlayers
 
   def codebreaker(input)
     if input == "computer"
-      FakeComputer.new("computer", @ui, 4)
+      FakeComputer.new("computer", 4)
     elsif input == "human player"
       HumanPlayer.new("Gabriella", @ui, 4)
     end
