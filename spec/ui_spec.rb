@@ -1,11 +1,12 @@
-require 'spec_helper'
-require 'ui'
-require 'human_player'
-require 'pattern'
-require 'result'
-require 'feedback'
-require 'board'
-require 'peg_colour'
+require_relative 'spec_helper'
+require_relative '../lib/ui'
+require_relative '../lib/human_player'
+require_relative '../lib/pattern'
+require_relative '../lib/result'
+require_relative '../lib/feedback'
+require_relative '../lib/board'
+require_relative '../lib/peg_colour'
+require_relative '../lib/players'
 
 RSpec.describe Ui do
 
@@ -24,24 +25,26 @@ RSpec.describe Ui do
     ui.print_logo
   end
 
-  it "asks who's the codemaker" do
+  it "asks who the codemaker is" do
     input = StringIO.new("computer\n")
     ui = Ui.new(input, output)
+    players = Players.new(ui)
 
-    codemaker = ui.choose_codemaker
+    codemaker = ui.choose_codemaker(players)
 
     expect(output.string).to eq("Select the codemaker (computer or human player)\n")
-    expect(codemaker).to eq("computer")
+    expect(codemaker.name).to eq("computer")
   end
 
-  it "asks who's the codebreaker" do
-    input = StringIO.new("human player\n")
+  it "asks who the codebreaker is" do
+    input = StringIO.new("human player\nGabi")
     ui = Ui.new(input, output)
+    players = Players.new(ui)
 
-    codemaker = ui.choose_codebreaker
+    codebreaker = ui.choose_codebreaker(players)
 
-    expect(output.string).to eq("Select the codebreaker (computer or human player)\n")
-    expect(codemaker).to eq("human player")
+    expect(output.string).to eq("Select the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(codebreaker.name).to eq("Gabi")
   end
 
   it "asks for name for human player" do
@@ -50,7 +53,7 @@ RSpec.describe Ui do
 
     name = ui.ask_human_player_name
 
-    expect(output.string).to eq("Enter your name:\n")
+    expect(output.string).to eq("Enter player's name:\n")
     expect(name).to eq("Gabriella")
   end
 

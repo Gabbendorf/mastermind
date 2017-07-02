@@ -2,6 +2,7 @@ require_relative 'colour_list'
 require_relative 'board'
 require_relative 'peg_colour'
 require_relative 'colour_list'
+require_relative 'players'
 
 class Ui
 
@@ -22,28 +23,30 @@ class Ui
     @stdout.puts LOGO
   end
 
-  def choose_codemaker
+  def choose_codemaker(players)
     @stdout.puts "Select the codemaker (computer or human player)"
     begin
-      codemaker = @stdin.gets.chomp
+      codemaker = players.codemaker(@stdin.gets.chomp)
     rescue => exception
       @stdout.puts exception.message
-      codemaker = choose_codemaker
+      codemaker = choose_codemaker(players)
     end
+    codemaker
   end
 
-  def choose_codebreaker
+  def choose_codebreaker(players)
     @stdout.puts "Select the codebreaker (computer or human player)"
     begin
-      codebreaker = @stdin.gets.chomp
+      codebreaker = players.codebreaker(@stdin.gets.chomp)
     rescue => exception
       @stdout.puts exception.message
-      codebreaker = choose_codebreaker
+      codebreaker = choose_codebreaker(players)
     end
+    codebreaker
   end
 
   def ask_human_player_name
-    @stdout.puts "Enter your name:"
+    @stdout.puts "Enter player's name:"
     @stdin.gets.chomp
   end
 

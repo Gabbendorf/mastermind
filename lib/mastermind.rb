@@ -13,41 +13,36 @@ class Mastermind
   end
 
   def run_game
-    pattern = code_pattern
-    board = Board.new(8, pattern)
-    play(board, pattern)
+    @ui.print_logo
+    codemaker = @ui.choose_codemaker(@players)
+    codebreaker = @ui.choose_codebreaker(@players)
+    pattern = codemaker.create_code_pattern(@ui)
+    play(pattern, codemaker, codebreaker)
   end
 
   private
 
-  def code_pattern
-    @ui.print_logo
-    codemaker = @players.codemaker(@ui.choose_codemaker)
-    pattern = codemaker.create_code_pattern(@ui)
-    pattern
-  end
-
-  def play(board, pattern)
-    codebreaker = @players.codebreaker(@ui.choose_codebreaker)
+  def play(pattern, codemaker, codebreaker)
+    board = Board.new(8, pattern)
     guess = codebreaker.make_guess
     feedback = pattern.compare(guess)
     new_result = Result.new(guess, feedback)
     board.keep_track_of_results(new_result)
     @ui.print_history(board.history, board)
-    next_move(board, pattern, codemaker.name, codebreaker.name)
+    next_move(board, pattern, codemaker, codebreaker)
   end
 
-  def next_move(board, pattern, codemaker_name, codebreaker_name)
+  def next_move(board, pattern, codemaker, codebreaker)
     if board.game_over?
-      end_of_game(board, codemaker_name, codebreaker_name)
+      end_of_game(board, codemaker, codebreaker)
     else
-      play(board, pattern)
+      play(pattern, codemaker, codebreaker)
     end
   end
 
-  def end_of_game(board, codemaker_name, codebreaker_name)
+  def end_of_game(board, codemaker, codebreaker)
     game_verdict = board.verdict
-    game_verdict == :codemaker_wins ? @ui.codemaker_is_winner(codemaker_name) : @ui.codebreaker_is_winner(codebreaker_name)
+    game_verdict == :codemaker_wins ? @ui.codemaker_is_winner(codemaker.name) : @ui.codebreaker_is_winner(codebreaker.name)
   end
 
 end

@@ -8,21 +8,28 @@ require_relative '../lib/pattern'
 
 RSpec.describe Mastermind do
 
-  # let(:input) {StringIO.new}
   let(:output) {StringIO.new}
-  # let(:ui) {Ui.new(input, output)}
-  # let(:players) {Players.new(ui)}
-  # let(:mastermind) {Mastermind.new(ui, players)}
 
   it "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("computer\nhuman player\ngreen\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
+    input = StringIO.new("computer\nhuman player\nGabriella\ngreen\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
 
     mastermind.run_game
 
-    expect(output.string).to include("Congratulations Gabriella: YOU WON!")
+    expect(output.string).to include("Gabriella wins!")
+  end
+
+  it "runs a new game with human player as codemaker and computer as codebreaker" do
+    input = StringIO.new("human player\ncomputer\norange\nblue\npurple\nyellow\n")
+    ui = Ui.new(input, output)
+    players = FakePlayers.new(ui)
+    mastermind = Mastermind.new(ui, players)
+
+    mastermind.run_game
+
+    expect(output.string).to include("computer wins!")
   end
 
 end
@@ -42,6 +49,12 @@ class FakeComputer
     @pattern_size.times {colours.push(PegColour.new(@available_colours.pop))}
     ui.confirm_computer_chose_pattern
     Pattern.new(colours)
+  end
+
+  def make_guess
+    guess = []
+    @pattern_size.times {guess.push(PegColour.new(@available_colours.pop))}
+    Pattern.new(guess)
   end
 
 end
