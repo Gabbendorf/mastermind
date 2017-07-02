@@ -17,13 +17,13 @@ class Mastermind
     codemaker = @ui.choose_codemaker(@players)
     codebreaker = @ui.choose_codebreaker(@players)
     pattern = codemaker.create_code_pattern(@ui)
-    play(pattern, codemaker, codebreaker)
+    board = Board.new(8, pattern)
+    play(pattern, board, codemaker, codebreaker)
   end
 
   private
 
-  def play(pattern, codemaker, codebreaker)
-    board = Board.new(8, pattern)
+  def play(pattern, board, codemaker, codebreaker)
     guess = codebreaker.make_guess
     feedback = pattern.compare(guess)
     new_result = Result.new(guess, feedback)
@@ -36,7 +36,7 @@ class Mastermind
     if board.game_over?
       end_of_game(board, codemaker, codebreaker)
     else
-      play(pattern, codemaker, codebreaker)
+      play(pattern, board, codemaker, codebreaker)
     end
   end
 

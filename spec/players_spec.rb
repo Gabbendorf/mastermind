@@ -19,7 +19,7 @@ RSpec.describe Players do
 
     codemaker = players.codemaker(input)
 
-    expect(codemaker.name).to eq("computer")
+    expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "creates human player codemaker" do
@@ -41,7 +41,7 @@ RSpec.describe Players do
 
     codebreaker = players.codebreaker(input)
 
-    expect(codebreaker.name).to eq("computer")
+    expect(codebreaker.name).to eq("computer-codebreaker")
   end
 
   it "creates human player codebreaker" do

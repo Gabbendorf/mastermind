@@ -33,7 +33,7 @@ RSpec.describe Ui do
     codemaker = ui.choose_codemaker(players)
 
     expect(output.string).to eq("Select the codemaker (computer or human player)\n")
-    expect(codemaker.name).to eq("computer")
+    expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "asks who the codebreaker is" do
