@@ -63,6 +63,7 @@ class Ui
   end
 
   def confirm_computer_chose_pattern
+    @stdout.puts ""
     @stdout.puts "The code pattern is ready. The challenge begins!"
     @stdout.puts ""
   end
