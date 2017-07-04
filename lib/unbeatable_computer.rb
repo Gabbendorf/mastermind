@@ -3,11 +3,9 @@ require_relative 'pattern'
 
 class UnbeatableComputer
 
-  def initialize(colour_list)
-    @colour_list = colour_list
+  def initialize
+    @colour_list = ["green", "pink", "yellow", "purple", "blue", "orange"]
   end
-
-  COLOURS = ["green", "pink", "yellow", "purple", "blue", "orange"]
 
   def make_guess
     first_guess
@@ -23,10 +21,10 @@ class UnbeatableComputer
 
   def two_same_colours
     two_colours = []
-    first_colour = COLOURS.sample
+    first_colour = @colour_list.sample
     two_colours.push(first_colour)
-    COLOURS.delete(first_colour)
-    second_colour = COLOURS.sample
+    @colour_list.delete(first_colour)
+    second_colour = @colour_list.sample
     two_colours.push(second_colour)
     two_colours
   end

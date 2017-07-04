@@ -26,46 +26,46 @@ RSpec.describe Ui do
   end
 
   it "asks for codemaker and raises error message if input is wrong" do
-    input = StringIO.new("robot\ncomputer")
+    input = StringIO.new("robot\nc")
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
 
-    expect(output.string).to eq("Select the codemaker (computer or human player)\nI didn't understand :(\nSelect the codemaker (computer or human player)\n")
+    expect(output.string).to eq("Select the codemaker ('c' = computer or 'h' = human player)\nI didn't understand :(\nSelect the codemaker ('c' = computer or 'h' = human player)\n")
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "asks for codemaker and returns instance of it" do
-    input = StringIO.new("computer\n")
+    input = StringIO.new("c\n")
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
 
-    expect(output.string).to eq("Select the codemaker (computer or human player)\n")
+    expect(output.string).to eq("Select the codemaker ('c' = computer or 'h' = human player)\n")
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "asks for codebreaker and raises error message if input is wrong" do
-    input = StringIO.new("human\nhuman player\nGabi")
+    input = StringIO.new("human\nh\nGabi")
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
     codebreaker = ui.choose_codebreaker(players)
 
-    expect(output.string).to eq("Select the codebreaker (computer or human player)\nI didn't understand :(\nSelect the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer or 'h' = human player)\nI didn't understand :(\nSelect the codebreaker ('c' = computer or 'h' = human player)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 
   it "asks for codebreaker and returns instance of it" do
-    input = StringIO.new("human player\nGabi")
+    input = StringIO.new("h\nGabi")
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
     codebreaker = ui.choose_codebreaker(players)
 
-    expect(output.string).to eq("Select the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer or 'h' = human player)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 

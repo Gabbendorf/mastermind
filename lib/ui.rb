@@ -24,7 +24,7 @@ class Ui
   end
 
   def choose_codemaker(players)
-    @stdout.puts "Select the codemaker (computer or human player)"
+    @stdout.puts "Select the codemaker ('c' = computer or 'h' = human player)"
     begin
       codemaker = players.codemaker(@stdin.gets.chomp)
     rescue => exception
@@ -35,7 +35,7 @@ class Ui
   end
 
   def choose_codebreaker(players)
-    @stdout.puts "Select the codebreaker (computer or human player)"
+    @stdout.puts "Select the codebreaker ('c' = computer or 'h' = human player)"
     begin
       codebreaker = players.codebreaker(@stdin.gets.chomp)
     rescue => exception

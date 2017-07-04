@@ -15,7 +15,7 @@ RSpec.describe Players do
   end
 
   it "creates computer codemaker" do
-    input = "computer"
+    input = "c"
 
     codemaker = players.codemaker(input)
 
@@ -23,7 +23,7 @@ RSpec.describe Players do
   end
 
   it "creates human player codemaker" do
-    input = "human player"
+    input = "h"
 
     codemaker = players.codemaker(input)
 
@@ -37,7 +37,7 @@ RSpec.describe Players do
   end
 
   it "creates computer codebreaker" do
-    input = "computer"
+    input = "c"
 
     codebreaker = players.codebreaker(input)
 
@@ -45,7 +45,7 @@ RSpec.describe Players do
   end
 
   it "creates human player codebreaker" do
-    input = "human player"
+    input = "h"
 
     codebreaker = players.codebreaker(input)
 

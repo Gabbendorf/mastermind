@@ -9,9 +9,9 @@ class Players
   end
 
   def codemaker(input)
-    if input == "computer"
+    if input == "c"
       Computer.new("computer-codemaker", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new(@ui.ask_human_player_name, @ui, 4)
     else
       raise("I didn't understand :(")
@@ -19,9 +19,9 @@ class Players
   end
 
   def codebreaker(input)
-    if input == "computer"
+    if input == "c"
       Computer.new("computer-codebreaker", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new(@ui.ask_human_player_name, @ui, 4)
     else
       raise("I didn't understand :(")
