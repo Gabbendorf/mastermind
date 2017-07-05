@@ -7,15 +7,18 @@ class UnbeatableComputer
 
   attr_reader :possible_patterns
 
-  def initialize(pattern_size)
+  def initialize(pattern_size, board)
     @pattern_size = pattern_size
+    @board = board
     @possible_patterns = Set.new.to_a
     @colour_list = ColourList.new
     @list_for_first_guess = ["green", "pink", "yellow", "purple", "blue", "orange"]
   end
 
   def make_guess
-    random_first_guess
+    if @board.history.size == 0
+      random_first_guess
+    end
   end
 
   def generate_all_possible_patterns
