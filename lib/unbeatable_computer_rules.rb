@@ -1,4 +1,5 @@
-class UnbeatableComputerRules
+require_relative 'result'
 
+class UnbeatableComputerRules
 
 end

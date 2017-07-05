@@ -1,10 +1,9 @@
 require 'spec_helper'
 require_relative '../lib/unbeatable_computer'
 
-
 RSpec.describe UnbeatableComputer do
 
-  let(:unbeatable_computer) {UnbeatableComputer.new}
+  let(:unbeatable_computer) {UnbeatableComputer.new(4)}
 
   it "gives 2 choices of same colour and 2 of another colour as 1st guess" do
     first_guess = unbeatable_computer.make_guess
@@ -14,6 +13,14 @@ RSpec.describe UnbeatableComputer do
 
     first_guess_colours = first_guess.colours.map(&:colour)
     expect(first_guess_colours).to eq([first_colour, first_colour, second_colour, second_colour])
+  end
+
+  it "generates all possible patterns" do
+    unbeatable_computer.generate_all_possible_patterns
+
+    demonstrated_possible_patterns_number = 1296
+
+    expect(unbeatable_computer.possible_patterns.size).to eq(demonstrated_possible_patterns_number)
   end
 
 end
