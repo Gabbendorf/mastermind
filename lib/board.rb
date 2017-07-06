@@ -1,12 +1,11 @@
 class Board
 
-  attr_reader :code_pattern, :history, :all_feeback
+  attr_reader :code_pattern, :history
 
   def initialize(rows, code_pattern)
     @rows = rows
     @code_pattern = code_pattern
     @history = []
-    @all_feeback = []
   end
 
   def keep_track_of_results(result)
