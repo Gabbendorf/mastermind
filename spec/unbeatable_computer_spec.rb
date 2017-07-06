@@ -41,14 +41,19 @@ RSpec.describe UnbeatableComputer do
     expect(unbeatable_computer.possible_patterns.size).to eq(demonstrated_possible_patterns_number)
   end
 
-  it "gets feedback pegs for guess" do
+  it "gets feedback pegs for first guess" do
     temporary_pattern = set_up_pattern
     result = set_up_result(temporary_pattern)
     board.keep_track_of_results(result)
 
-    feedback = unbeatable_computer.feedback_pegs_for(temporary_pattern)
+    feedback = unbeatable_computer.feedback_pegs_for_first_guess
 
     expect(feedback).to eq([2, 0])
+  end
+
+  xit "deletes pattern with feedback different from temporary pattern feedback" do
+
+
   end
 
 end
