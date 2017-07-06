@@ -5,8 +5,6 @@ require_relative 'colour_list'
 
 class UnbeatableComputer
 
-  attr_reader :possible_patterns
-
   def initialize(pattern_size, board)
     @pattern_size = pattern_size
     @board = board
@@ -25,6 +23,8 @@ class UnbeatableComputer
       make_next_guess
     end
   end
+
+  private
 
   def make_next_guess
     delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
@@ -54,8 +54,6 @@ class UnbeatableComputer
     feedback = firt_guess_result.feedback
     red_pegs_and_white_pegs(feedback)
   end
-
-  private
 
   def empty_history?
     @board.history.size == 0
