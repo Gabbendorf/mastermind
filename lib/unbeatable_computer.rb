@@ -18,19 +18,18 @@ class UnbeatableComputer
   LIST_FOR_FIRST_GUESS = ["green", "pink", "yellow", "purple", "blue", "orange"]
 
   def make_guess
-    if @board.history.size == 0
+    if empty_history?
+      generate_all_possible_patterns
       make_first_guess
-    # else
-    #   generate_all_possible_patterns
-    #   make_next_guess
+    else
+      make_next_guess
     end
   end
 
-  # Hypotetical method for next guess
-  # def make_next_guess
-  #   delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
-  #   @temporary_pattern = @possible_patterns.sample
-  # end
+  def make_next_guess
+    delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
+    @temporary_pattern = @possible_patterns.sample
+  end
 
   def generate_all_possible_patterns
     while !demonstrated_possible_patterns_generated?
@@ -57,6 +56,10 @@ class UnbeatableComputer
   end
 
   private
+
+  def empty_history?
+    @board.history.size == 0
+  end
 
   def red_pegs_and_white_pegs(feedback)
     red_pegs = feedback.red_pegs

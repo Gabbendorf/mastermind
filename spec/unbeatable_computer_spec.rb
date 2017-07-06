@@ -22,7 +22,7 @@ RSpec.describe UnbeatableComputer do
   let(:board) {Board.new(8, pattern)}
   let(:unbeatable_computer) {UnbeatableComputer.new(4, board)}
 
-  it "gives 2 choices of same colour and 2 of another colour as 1st guess" do
+  it "gives 2 choices of same colour and 2 of another colour for 1st guess" do
     first_guess = unbeatable_computer.make_guess
 
     first_colour = first_guess.colours[0].colour
@@ -30,6 +30,20 @@ RSpec.describe UnbeatableComputer do
 
     first_guess_colours = first_guess.colours.map(&:colour)
     expect(first_guess_colours).to eq([first_colour, first_colour, second_colour, second_colour])
+  end
+
+  it "gives a random guess from possible patterns for guess 2 onwards" do
+    first_guess = unbeatable_computer.make_guess
+    board.keep_track_of_results(set_up_result(first_guess))
+    second_guess = unbeatable_computer.make_guess
+
+    first_colour = second_guess.colours[0].colour
+    second_colour = second_guess.colours[1].colour
+    third_colour = second_guess.colours[2].colour
+    fourth_colour = second_guess.colours[3].colour
+
+    second_guess_colours = second_guess.colours.map(&:colour)
+    expect(second_guess_colours).to eq([first_colour, second_colour, third_colour, fourth_colour])
   end
 
   it "generates all possible patterns" do
@@ -50,7 +64,7 @@ RSpec.describe UnbeatableComputer do
     expect(feedback).to eq([2, 0])
   end
 
-  it "deletes pattern with feedback that compared to the previous guess doesn't match the previous feedback" do
+  it "deletes pattern with feedback that compared to the previous pattern doesn't match the previous feedback" do
     temporary_pattern = set_up_pattern(["green", "blue", "purple", "green"])
     result = set_up_result(temporary_pattern)
     board.keep_track_of_results(result)
@@ -64,7 +78,7 @@ RSpec.describe UnbeatableComputer do
     expect(all_possible_patterns.empty?).to eq(true)
   end
 
-  it "keeps pattern with feedback that compared to the previous guess matches the previous feedback" do
+  it "keeps pattern with feedback that compared to the previous pattern matches the previous feedback" do
     temporary_pattern = set_up_pattern(["green", "blue", "purple", "green"])
     result = set_up_result(temporary_pattern)
     board.keep_track_of_results(result)
