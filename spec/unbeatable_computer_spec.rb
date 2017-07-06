@@ -13,13 +13,12 @@ RSpec.describe UnbeatableComputer do
     Result.new(guess, feedback)
   end
 
-  def set_up_pattern
-    colour_strings = ["green", "blue", "purple", "green"]
+  def set_up_pattern(colour_strings)
     peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
     Pattern.new(peg_colours)
   end
 
-  let(:pattern) {set_up_pattern}
+  let(:pattern) {double}
   let(:board) {Board.new(8, pattern)}
   let(:unbeatable_computer) {UnbeatableComputer.new(4, board)}
 
@@ -42,7 +41,7 @@ RSpec.describe UnbeatableComputer do
   end
 
   it "gets feedback pegs for first guess" do
-    temporary_pattern = set_up_pattern
+    temporary_pattern = set_up_pattern(["green", "blue", "purple", "green"])
     result = set_up_result(temporary_pattern)
     board.keep_track_of_results(result)
 
@@ -51,9 +50,32 @@ RSpec.describe UnbeatableComputer do
     expect(feedback).to eq([2, 0])
   end
 
-  xit "deletes pattern with feedback different from temporary pattern feedback" do
+  it "deletes pattern with feedback that compared to the previous guess doesn't match the previous feedback" do
+    temporary_pattern = set_up_pattern(["green", "blue", "purple", "green"])
+    result = set_up_result(temporary_pattern)
+    board.keep_track_of_results(result)
 
+    all_possible_patterns = []
+    possible_pattern = set_up_pattern(["green", "blue", "purple", "green"])
+    all_possible_patterns.push(possible_pattern)
 
+    unbeatable_computer.delete_incompatible_patterns(all_possible_patterns, temporary_pattern)
+
+    expect(all_possible_patterns.empty?).to eq(true)
+  end
+
+  it "keeps pattern with feedback that compared to the previous guess matches the previous feedback" do
+    temporary_pattern = set_up_pattern(["green", "blue", "purple", "green"])
+    result = set_up_result(temporary_pattern)
+    board.keep_track_of_results(result)
+
+    all_possible_patterns = []
+    possible_pattern = set_up_pattern(["green", "blue", "yellow", "pink"])
+    all_possible_patterns.push(possible_pattern)
+
+    unbeatable_computer.delete_incompatible_patterns(all_possible_patterns, temporary_pattern)
+
+    expect(all_possible_patterns.empty?).to eq(false)
   end
 
 end

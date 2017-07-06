@@ -26,9 +26,9 @@ class UnbeatableComputer
     end
   end
 
-  # Hypotetical method
+  # Hypotetical method for next guess
   # def make_next_guess
-  #   delete_incompatible_patterns(@temporary_pattern)
+  #   delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
   #   @temporary_pattern = @possible_patterns.sample
   # end
 
@@ -40,22 +40,29 @@ class UnbeatableComputer
     end
   end
 
-  # def delete_incompatible_patterns(temporary_pattern)
-  #   @possible_patterns.each do |pattern|
-  #     random_pattern_feedback = temporary_pattern.compare(pattern)
-  #     if feedback_pegs_for_first_guess != random_pattern_feedback
-  #       @possible_patterns.delete(pattern)
-  #     end
-  #   end
-  # end
+  def delete_incompatible_patterns(possible_patterns, temporary_pattern)
+    possible_patterns.each do |pattern|
+      random_pattern_feedback = temporary_pattern.compare(pattern)
+      random_pattern_feedback_pegs = red_pegs_and_white_pegs(random_pattern_feedback)
+      if feedback_pegs_for_first_guess != random_pattern_feedback_pegs
+        possible_patterns.delete(pattern)
+      end
+    end
+  end
 
   def feedback_pegs_for_first_guess
     firt_guess_result = @board.history[0]
     feedback = firt_guess_result.feedback
-    return [feedback.red_pegs, feedback.white_pegs]
+    red_pegs_and_white_pegs(feedback)
   end
 
   private
+
+  def red_pegs_and_white_pegs(feedback)
+    red_pegs = feedback.red_pegs
+    white_pegs = feedback.white_pegs
+    [red_pegs, white_pegs]
+  end
 
   def demonstrated_possible_patterns_generated?
     @possible_patterns.size == 1296
