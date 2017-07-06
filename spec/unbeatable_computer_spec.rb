@@ -46,4 +46,12 @@ RSpec.describe UnbeatableComputer do
     expect(second_guess_colours).to eq([first_colour, second_colour, third_colour, fourth_colour])
   end
 
+  # it "generates all possible patterns" do
+  #   unbeatable_computer.generate_all_possible_patterns
+  #
+  #   demonstrated_possible_patterns_number = 1296
+  #
+  #   expect(unbeatable_computer.possible_patterns.size).to eq(demonstrated_possible_patterns_number)
+  # end
+  #
 end

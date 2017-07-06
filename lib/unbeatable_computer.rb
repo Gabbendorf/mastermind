@@ -28,9 +28,13 @@ class UnbeatableComputer
 
   def make_next_guess
     delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
-    @temporary_pattern = @possible_patterns.sample
+    guess = @possible_patterns.sample
+    @possible_patterns.delete(guess)
+    @temporary_pattern = guess
+    guess
   end
 
+  #TODO: to be implemented differently
   def generate_all_possible_patterns
     while !demonstrated_possible_patterns_generated?
       random_colours = []
@@ -70,13 +74,18 @@ class UnbeatableComputer
   end
 
   def make_first_guess
+    first_guess_array = first_guess
+    guess = Pattern.new(first_guess_array.map {|colour| PegColour.new(colour)})
+    @possible_patterns.delete(guess)
+    @temporary_pattern = guess
+    guess
+  end
+
+  def first_guess
     two_colours = two_random_colours
     first_colour = two_colours[0]
     second_colour = two_colours[1]
-    first_guess = [first_colour, first_colour, second_colour, second_colour]
-    first_guess = Pattern.new(first_guess.map {|colour| PegColour.new(colour)})
-    @temporary_pattern = first_guess
-    first_guess
+    [first_colour, first_colour, second_colour, second_colour]
   end
 
   def two_random_colours
