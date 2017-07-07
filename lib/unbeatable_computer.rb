@@ -11,7 +11,7 @@ class UnbeatableComputer
     @name = name
     @pattern_size = pattern_size
     @board = board
-    @possible_patterns = Set.new.to_a
+    @all_possible_patterns = Set.new.to_a
     @colour_list = ColourList.new
     @temporary_pattern = []
   end
@@ -32,7 +32,7 @@ class UnbeatableComputer
     while !demonstrated_possible_patterns_generated?
       random_colours = []
       @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
-      @possible_patterns.push(Pattern.new(random_colours))
+      @all_possible_patterns.push(Pattern.new(random_colours))
     end
   end
 
@@ -46,25 +46,23 @@ class UnbeatableComputer
   def make_first_guess
     first_guess_array = first_guess
     guess = Pattern.new(first_guess_array.map {|colour| PegColour.new(colour)})
-    @possible_patterns.delete(guess)
-    @temporary_pattern = guess
+    update_possible_patterns_and_temporary_pattern(guess)
     guess
   end
 
   def make_next_guess
-    delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
-    guess = @possible_patterns.sample
-    @possible_patterns.delete(guess)
-    @temporary_pattern = guess
+    delete_incompatible_patterns(@all_possible_patterns, @temporary_pattern)
+    guess = @all_possible_patterns.sample
+    update_possible_patterns_and_temporary_pattern(guess)
     guess
   end
 
-  def delete_incompatible_patterns(possible_patterns, temporary_pattern)
-    possible_patterns.each do |pattern|
+  def delete_incompatible_patterns(all_possible_patterns, temporary_pattern)
+    all_possible_patterns.each do |pattern|
       pattern_feedback = temporary_pattern.compare(pattern)
       pattern_feedback_pegs = red_pegs_and_white_pegs(pattern_feedback)
       if feedback_pegs_for_guess(temporary_pattern) != pattern_feedback_pegs
-        possible_patterns.delete(pattern)
+        all_possible_patterns.delete(pattern)
       end
     end
   end
@@ -80,7 +78,7 @@ class UnbeatableComputer
   end
 
   def demonstrated_possible_patterns_generated?
-    @possible_patterns.size == 1296
+    @all_possible_patterns.size == 1296
   end
 
   def first_guess
@@ -95,6 +93,11 @@ class UnbeatableComputer
     LIST_FOR_FIRST_GUESS.delete(first_colour)
     second_colour = LIST_FOR_FIRST_GUESS.sample
     [first_colour, second_colour]
+  end
+
+  def update_possible_patterns_and_temporary_pattern(guess)
+    @all_possible_patterns.delete(guess)
+    @temporary_pattern = guess
   end
 
 end
