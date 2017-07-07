@@ -15,9 +15,9 @@ class Mastermind
   def run_game
     @ui.print_logo
     codemaker = @ui.choose_codemaker(@players)
-    codebreaker = @ui.choose_codebreaker(@players)
     pattern = codemaker.create_code_pattern(@ui)
     board = Board.new(8, pattern)
+    codebreaker = @ui.choose_codebreaker(@players, board)
     play(pattern, board, codemaker, codebreaker)
   end
 

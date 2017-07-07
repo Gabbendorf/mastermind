@@ -18,6 +18,14 @@ class Board
      :white_pegs => result.feedback.white_pegs.to_s
     }
   end
+# to implement and test
+  def feedback
+    feedback = {}
+    @history.each do |result|
+      feedback[result.guess] = result.feedback
+    end
+    feedback
+  end
 
   def game_over?
     no_more_guesses? || four_red_pegs?

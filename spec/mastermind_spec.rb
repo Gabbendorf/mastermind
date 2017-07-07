@@ -5,13 +5,17 @@ require_relative '../lib/human_player'
 require_relative '../lib/ui'
 require_relative '../lib/peg_colour'
 require_relative '../lib/pattern'
+require_relative '../lib/board'
+require_relative '../lib/unbeatable_computer'
 
 RSpec.describe Mastermind do
 
+  let(:pattern) {double}
+  let(:board) {Board.new(8, pattern)}
   let(:output) {StringIO.new}
 
-  it "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("computer\nhuman player\nGabriella\ngreen\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
+  xit "runs a new game with computer as codemaker and human player as codebreaker" do
+    input = StringIO.new("c\nh\nGabriella\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -21,8 +25,8 @@ RSpec.describe Mastermind do
     expect(output.string).to include("Gabriella wins!")
   end
 
-  it "runs a new game with human player as codemaker and computer as codebreaker" do
-    input = StringIO.new("human player\ncomputer\norange\nblue\npurple\nyellow\n")
+  xit "runs a new game with human player as codemaker and computer as codebreaker" do
+    input = StringIO.new("h\nc\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -59,8 +63,6 @@ class FakeComputer
 
 end
 
-require_relative '../lib/human_player'
-
 class  FakePlayers
 
   def initialize(ui)
@@ -68,18 +70,20 @@ class  FakePlayers
   end
 
   def codemaker(input)
-    if input == "computer"
+    if input == "c"
       FakeComputer.new("computer", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new("Gabriella", @ui, 4)
     end
   end
 
-  def codebreaker(input)
-    if input == "computer"
+  def codebreaker(input, board)
+    if input == "c"
       FakeComputer.new("computer", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new("Gabriella", @ui, 4)
+    elsif input == "s"
+      UnbeatableComputer.new("smart computer", 4, board)
     end
   end
 end

@@ -20,9 +20,10 @@ RSpec.describe UnbeatableComputer do
 
   let(:pattern) {double}
   let(:board) {Board.new(8, pattern)}
-  let(:unbeatable_computer) {UnbeatableComputer.new(4, board)}
+  let(:unbeatable_computer) {UnbeatableComputer.new("smart computer", 4, board)}
 
   it "gives 2 choices of same colour and 2 of another colour for 1st guess" do
+    unbeatable_computer.generate_all_possible_patterns
     first_guess = unbeatable_computer.make_guess
 
     first_colour = first_guess.colours[0].colour
@@ -54,4 +55,5 @@ RSpec.describe UnbeatableComputer do
   #   expect(unbeatable_computer.possible_patterns.size).to eq(demonstrated_possible_patterns_number)
   # end
   #
+
 end

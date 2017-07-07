@@ -5,7 +5,10 @@ require_relative 'colour_list'
 
 class UnbeatableComputer
 
-  def initialize(pattern_size, board)
+  attr_reader :name
+
+  def initialize(name, pattern_size, board)
+    @name = name
     @pattern_size = pattern_size
     @board = board
     @possible_patterns = Set.new.to_a
@@ -24,7 +27,24 @@ class UnbeatableComputer
     end
   end
 
+  #TODO: bug, doesn't create all patterns
+  def generate_all_possible_patterns
+    while !demonstrated_possible_patterns_generated?
+      random_colours = []
+      @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
+      @possible_patterns.push(Pattern.new(random_colours))
+    end
+  end
+
   private
+
+  def make_first_guess
+    first_guess_array = first_guess
+    guess = Pattern.new(first_guess_array.map {|colour| PegColour.new(colour)})
+    @possible_patterns.delete(guess)
+    @temporary_pattern = guess
+    guess
+  end
 
   def make_next_guess
     delete_incompatible_patterns(@possible_patterns, @temporary_pattern)
@@ -34,15 +54,7 @@ class UnbeatableComputer
     guess
   end
 
-  #TODO: to be implemented differently
-  def generate_all_possible_patterns
-    while !demonstrated_possible_patterns_generated?
-      random_colours = []
-      @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
-      @possible_patterns.push(Pattern.new(random_colours))
-    end
-  end
-
+# need to get feedback for each guess from board, not only for 1st guess (see below)
   def delete_incompatible_patterns(possible_patterns, temporary_pattern)
     possible_patterns.each do |pattern|
       random_pattern_feedback = temporary_pattern.compare(pattern)
@@ -53,11 +65,27 @@ class UnbeatableComputer
     end
   end
 
+  # def delete_incompatible_patterns(possible_patterns, temporary_pattern)
+  #   possible_patterns.each do |pattern|
+  #     random_pattern_feedback = temporary_pattern.compare(pattern)
+  #     random_pattern_feedback_pegs = red_pegs_and_white_pegs(random_pattern_feedback)
+  #     if feedback_pegs_for_guess(temporary_pattern) != random_pattern_feedback_pegs
+  #       possible_patterns.delete(pattern)
+  #     end
+  #   end
+  # end
+
+# should be feedback_pegs_for_each_guess (see below)
   def feedback_pegs_for_first_guess
     firt_guess_result = @board.history[0]
     feedback = firt_guess_result.feedback
     red_pegs_and_white_pegs(feedback)
   end
+
+  # def feedback_pegs_for_guess(guess)
+  #   feedback = @board.get_feedback[guess]
+  #   red_pegs_and_white_pegs(feedback)
+  # end
 
   def empty_history?
     @board.history.size == 0
@@ -71,14 +99,6 @@ class UnbeatableComputer
 
   def demonstrated_possible_patterns_generated?
     @possible_patterns.size == 1296
-  end
-
-  def make_first_guess
-    first_guess_array = first_guess
-    guess = Pattern.new(first_guess_array.map {|colour| PegColour.new(colour)})
-    @possible_patterns.delete(guess)
-    @temporary_pattern = guess
-    guess
   end
 
   def first_guess

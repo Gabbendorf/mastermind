@@ -13,8 +13,9 @@ RSpec.describe Ui do
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
+  let(:pattern) {double}
+  let(:board) {Board.new(8, pattern)}
   let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
-  let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
 
   it "prints the game logo" do
     output = double("output")
@@ -37,7 +38,7 @@ RSpec.describe Ui do
   end
 
   it "asks for codemaker and returns instance of it" do
-    input = StringIO.new("c\n")
+    input = StringIO.new("c")
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
@@ -52,9 +53,9 @@ RSpec.describe Ui do
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
-    codebreaker = ui.choose_codebreaker(players)
+    codebreaker = ui.choose_codebreaker(players, board)
 
-    expect(output.string).to eq("Select the codebreaker ('c' = computer or 'h' = human player)\nI didn't understand :(\nSelect the codebreaker ('c' = computer or 'h' = human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nI didn't understand :(\nSelect the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 
@@ -63,14 +64,14 @@ RSpec.describe Ui do
     ui = Ui.new(input, output)
     players = Players.new(ui)
 
-    codebreaker = ui.choose_codebreaker(players)
+    codebreaker = ui.choose_codebreaker(players, board)
 
-    expect(output.string).to eq("Select the codebreaker ('c' = computer or 'h' = human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 
   it "asks for name for human player" do
-    input = StringIO.new("Gabriella\n")
+    input = StringIO.new("Gabriella")
     ui = Ui.new(input, output)
 
     name = ui.ask_human_player_name
@@ -90,7 +91,7 @@ RSpec.describe Ui do
   end
 
   it "gets colour from human codemaker for code pattern and returns istance of it" do
-    input = StringIO.new("green\n")
+    input = StringIO.new("green")
     ui = Ui.new(input, output)
 
     peg = ui.choose_code_pattern_colour
@@ -107,7 +108,7 @@ RSpec.describe Ui do
   end
 
   it "gets colour from codebreaker to make guess" do
-    input = StringIO.new("grey\nviolet\ngreen\n")
+    input = StringIO.new("grey\nviolet\ngreen")
     ui = Ui.new(input, output)
 
     peg = ui.make_guess(codebreaker.name)

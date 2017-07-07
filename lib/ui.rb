@@ -34,13 +34,13 @@ class Ui
     codemaker
   end
 
-  def choose_codebreaker(players)
-    @stdout.puts "Select the codebreaker ('c' = computer or 'h' = human player)"
+  def choose_codebreaker(players, board)
+    @stdout.puts "Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)"
     begin
-      codebreaker = players.codebreaker(@stdin.gets.chomp)
+      codebreaker = players.codebreaker(@stdin.gets.chomp, board)
     rescue => exception
       @stdout.puts exception.message
-      codebreaker = choose_codebreaker(players)
+      codebreaker = choose_codebreaker(players, board)
     end
     codebreaker
   end
