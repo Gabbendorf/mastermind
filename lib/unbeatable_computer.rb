@@ -19,7 +19,7 @@ class UnbeatableComputer
   LIST_FOR_FIRST_GUESS = ["green", "pink", "yellow", "purple", "blue", "orange"]
 
   def make_guess
-    if empty_history?
+    if empty_board_history?
       generate_all_possible_patterns
       make_first_guess
     else
@@ -34,6 +34,11 @@ class UnbeatableComputer
       @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
       @possible_patterns.push(Pattern.new(random_colours))
     end
+  end
+
+  def feedback_pegs_for_guess(guess)
+    feedback = @board.show_guesses_and_feedback[guess]
+    red_pegs_and_white_pegs(feedback)
   end
 
   private
@@ -54,40 +59,17 @@ class UnbeatableComputer
     guess
   end
 
-# need to get feedback for each guess from board, not only for 1st guess (see below)
   def delete_incompatible_patterns(possible_patterns, temporary_pattern)
     possible_patterns.each do |pattern|
-      random_pattern_feedback = temporary_pattern.compare(pattern)
-      random_pattern_feedback_pegs = red_pegs_and_white_pegs(random_pattern_feedback)
-      if feedback_pegs_for_first_guess != random_pattern_feedback_pegs
+      pattern_feedback = temporary_pattern.compare(pattern)
+      pattern_feedback_pegs = red_pegs_and_white_pegs(pattern_feedback)
+      if feedback_pegs_for_guess(temporary_pattern) != pattern_feedback_pegs
         possible_patterns.delete(pattern)
       end
     end
   end
 
-  # def delete_incompatible_patterns(possible_patterns, temporary_pattern)
-  #   possible_patterns.each do |pattern|
-  #     random_pattern_feedback = temporary_pattern.compare(pattern)
-  #     random_pattern_feedback_pegs = red_pegs_and_white_pegs(random_pattern_feedback)
-  #     if feedback_pegs_for_guess(temporary_pattern) != random_pattern_feedback_pegs
-  #       possible_patterns.delete(pattern)
-  #     end
-  #   end
-  # end
-
-# should be feedback_pegs_for_each_guess (see below)
-  def feedback_pegs_for_first_guess
-    firt_guess_result = @board.history[0]
-    feedback = firt_guess_result.feedback
-    red_pegs_and_white_pegs(feedback)
-  end
-
-  # def feedback_pegs_for_guess(guess)
-  #   feedback = @board.get_feedback[guess]
-  #   red_pegs_and_white_pegs(feedback)
-  # end
-
-  def empty_history?
+  def empty_board_history?
     @board.history.size == 0
   end
 

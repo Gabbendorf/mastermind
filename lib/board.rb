@@ -18,12 +18,10 @@ class Board
      :white_pegs => result.feedback.white_pegs.to_s
     }
   end
-# to implement and test
-  def feedback
+
+  def show_guesses_and_feedback
     feedback = {}
-    @history.each do |result|
-      feedback[result.guess] = result.feedback
-    end
+    @history.each {|result| feedback[result.guess] = result.feedback}
     feedback
   end
 

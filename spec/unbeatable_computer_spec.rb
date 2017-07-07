@@ -5,14 +5,14 @@ require_relative '../lib/pattern'
 require_relative '../lib/peg_colour'
 
 RSpec.describe UnbeatableComputer do
-
+  #can be deleted once only tests for public interface remain
   def set_up_result(guess)
     red_pegs = 2
     white_pegs = 0
     feedback = Feedback.new(red_pegs, white_pegs)
     Result.new(guess, feedback)
   end
-
+#can be deleted once only tests for public interface remain
   def set_up_pattern(colour_strings)
     peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
     Pattern.new(peg_colours)
@@ -45,6 +45,16 @@ RSpec.describe UnbeatableComputer do
 
     second_guess_colours = second_guess.colours.map(&:colour)
     expect(second_guess_colours).to eq([first_colour, second_colour, third_colour, fourth_colour])
+  end
+
+  it "returns red pegs and white pegs for guess" do
+    guess = set_up_pattern(["green", "blue", "orange", "yellow"])
+    result = set_up_result(guess)
+    board.keep_track_of_results(result)
+
+    red_pegs_and_white_pegs = unbeatable_computer.feedback_pegs_for_guess(guess)
+
+    expect(red_pegs_and_white_pegs).to eq([2, 0])
   end
 
   # it "generates all possible patterns" do
