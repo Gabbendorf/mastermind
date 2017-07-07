@@ -5,13 +5,13 @@ require_relative 'colour_list'
 
 class UnbeatableComputer
 
-  attr_reader :name
+  attr_reader :name, :all_possible_patterns
 
   def initialize(name, pattern_size, board)
     @name = name
     @pattern_size = pattern_size
     @board = board
-    @all_possible_patterns = Set.new.to_a
+    @all_possible_patterns = []
     @colour_list = ColourList.new
     @temporary_pattern = []
   end
@@ -27,14 +27,23 @@ class UnbeatableComputer
     end
   end
 
-  #TODO: bug, doesn't create all patterns
+  #TODO: re-implement, takes a lot to run (wrong implementation) - started alternative below
   def generate_all_possible_patterns
     while !demonstrated_possible_patterns_generated?
       random_colours = []
       @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
       @all_possible_patterns.push(Pattern.new(random_colours))
+      @all_possible_patterns.uniq
     end
   end
+
+  # def generate_all_possible_patterns
+  #   while !demonstrated_possible_patterns_generated?
+  #     LIST_FOR_FIRST_GUESS.each do |colour|
+  #
+  #     end
+  #   end
+  # end
 
   def feedback_pegs_for_guess(guess)
     feedback = @board.show_guesses_and_feedback[guess]
@@ -44,8 +53,10 @@ class UnbeatableComputer
   private
 
   def make_first_guess
-    first_guess_array = first_guess
-    guess = Pattern.new(first_guess_array.map {|colour| PegColour.new(colour)})
+    colour_strings = first_guess
+    colours = []
+    colour_strings.each {|colour_string| colours.push(PegColour.new(colour_string))}
+    guess = Pattern.new(colours)
     update_possible_patterns_and_temporary_pattern(guess)
     guess
   end

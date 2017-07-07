@@ -48,22 +48,28 @@ RSpec.describe UnbeatableComputer do
   end
 
   it "returns red pegs and white pegs for guess" do
-    guess = set_up_pattern(["green", "blue", "orange", "yellow"])
-    result = set_up_result(guess)
-    board.keep_track_of_results(result)
+    guess1 = set_up_pattern(["green", "blue", "orange", "yellow"])
+    result1 = set_up_result(guess1)
+    board.keep_track_of_results(result1)
 
-    red_pegs_and_white_pegs = unbeatable_computer.feedback_pegs_for_guess(guess)
+    guess2 = set_up_pattern(["green", "purple", "blue", "yellow"])
+    result2 = set_up_result(guess2)
+    board.keep_track_of_results(result2)
 
-    expect(red_pegs_and_white_pegs).to eq([2, 0])
+    red_pegs_and_white_pegs1 = unbeatable_computer.feedback_pegs_for_guess(guess1)
+    red_pegs_and_white_pegs2 = unbeatable_computer.feedback_pegs_for_guess(guess2)
+
+    expect(red_pegs_and_white_pegs1).to eq([2, 0])
+    expect(red_pegs_and_white_pegs2).to eq([2, 0])
   end
 
-  # it "generates all possible patterns" do
-  #   unbeatable_computer.generate_all_possible_patterns
-  #
-  #   demonstrated_possible_patterns_number = 1296
-  #
-  #   expect(unbeatable_computer.possible_patterns.size).to eq(demonstrated_possible_patterns_number)
-  # end
-  #
+  it "generates all possible patterns" do
+    unbeatable_computer.generate_all_possible_patterns
+
+    demonstrated_possible_patterns_number = 1296
+
+    expect(unbeatable_computer.all_possible_patterns.size).to eq(demonstrated_possible_patterns_number)
+  end
+
 
 end
