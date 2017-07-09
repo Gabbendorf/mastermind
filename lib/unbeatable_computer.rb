@@ -31,7 +31,9 @@ class UnbeatableComputer
       @colour_list.available_colours.each do |colour2|
         @colour_list.available_colours.each do |colour3|
           @colour_list.available_colours.each do |colour4|
-            @all_possible_patterns.push([colour1, colour2, colour3, colour4])
+            four_colours = [colour1, colour2, colour3, colour4].map {|string_colour| PegColour.new(string_colour)}
+            pattern = Pattern.new(four_colours)
+            @all_possible_patterns.push(pattern)
           end
         end
       end
