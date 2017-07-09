@@ -13,7 +13,7 @@ RSpec.describe Mastermind do
 
   let(:output) {StringIO.new}
 
-  xit "runs a new game with computer as codemaker and human player as codebreaker" do
+  it "runs a new game with computer as codemaker and human player as codebreaker" do
     input = StringIO.new("c\nh\nGabriella\norange\nblue\npurple\nyellow\n")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
@@ -24,8 +24,8 @@ RSpec.describe Mastermind do
     expect(output.string).to include("Gabriella wins!")
   end
 
-  xit "runs a new game with human player as codemaker and computer as codebreaker" do
-    input = StringIO.new("h\nc\norange\nblue\npurple\nyellow\n")
+  it "runs a new game with human player as codemaker and computer as codebreaker" do
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\nc")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -35,8 +35,8 @@ RSpec.describe Mastermind do
     expect(output.string).to include("computer wins!")
   end
 
-  xit "runs a new game with human player as codemaker and smart computer as codebreaker" do
-    input = StringIO.new("h\nGabi\ns\norange\nblue\npurple\nyellow\n")
+  it "runs a new game with human player as codemaker and smart computer as codebreaker" do
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -114,8 +114,7 @@ class  FakePlayers
 
   def initialize(ui)
     @ui = ui
-    # @pattern = Pattern.new(["green", "blue", "orange", "yellow"])
-    # @board = Board.new(8, @pattern)
+    @board = Board.new(8, @pattern)
   end
 
   def codemaker(input)

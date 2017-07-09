@@ -13,7 +13,6 @@ class UnbeatableComputer
     @board = board
     @all_possible_patterns = []
     @colour_list = ColourList.new
-    @temporary_pattern = []
   end
 
   LIST_FOR_FIRST_GUESS = ["green", "pink", "yellow", "purple", "blue", "orange"]
@@ -27,23 +26,17 @@ class UnbeatableComputer
     end
   end
 
-  #TODO: re-implement, takes a lot to run (wrong implementation) - started alternative below
   def generate_all_possible_patterns
-    while !demonstrated_possible_patterns_generated?
-      random_colours = []
-      @pattern_size.times {random_colours.push(PegColour.new(@colour_list.available_colours.sample))}
-      @all_possible_patterns.push(Pattern.new(random_colours))
-      @all_possible_patterns.uniq
+    @colour_list.available_colours.each do |colour1|
+      @colour_list.available_colours.each do |colour2|
+        @colour_list.available_colours.each do |colour3|
+          @colour_list.available_colours.each do |colour4|
+            @all_possible_patterns.push([colour1, colour2, colour3, colour4])
+          end
+        end
+      end
     end
   end
-
-  # def generate_all_possible_patterns
-  #   while !demonstrated_possible_patterns_generated?
-  #     LIST_FOR_FIRST_GUESS.each do |colour|
-  #
-  #     end
-  #   end
-  # end
 
   def feedback_pegs_for_guess(guess)
     feedback = @board.show_guesses_and_feedback[guess]
@@ -86,10 +79,6 @@ class UnbeatableComputer
     red_pegs = feedback.red_pegs
     white_pegs = feedback.white_pegs
     [red_pegs, white_pegs]
-  end
-
-  def demonstrated_possible_patterns_generated?
-    @all_possible_patterns.size == 1296
   end
 
   def first_guess

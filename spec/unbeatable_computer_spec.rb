@@ -67,8 +67,9 @@ RSpec.describe UnbeatableComputer do
     unbeatable_computer.generate_all_possible_patterns
 
     demonstrated_possible_patterns_number = 1296
+    uniq_generated_pattern_number = unbeatable_computer.all_possible_patterns.uniq.size
 
-    expect(unbeatable_computer.all_possible_patterns.size).to eq(demonstrated_possible_patterns_number)
+    expect(uniq_generated_pattern_number).to eq(demonstrated_possible_patterns_number)
   end
 
 
