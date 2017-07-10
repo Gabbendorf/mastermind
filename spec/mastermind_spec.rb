@@ -35,10 +35,10 @@ RSpec.describe Mastermind do
     expect(output.string).to include("computer wins!")
   end
 
-  xit "runs a new game with human player as codemaker and smart computer as codebreaker" do
+  it "runs a new game with human player as codemaker and smart computer as codebreaker" do
     input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns")
     ui = Ui.new(input, output)
-    players = FakePlayers.new(ui)
+    players = Players.new(ui)
     mastermind = Mastermind.new(ui, players)
 
     mastermind.run_game
@@ -71,50 +71,10 @@ class FakeComputer
   end
 end
 
-class FakeUnbeatableComputer
-
-  attr_reader :name
-
-  def initialize(name, pattern_size, board)
-    @name = name
-    @pattern_size = pattern_size
-    @board = board
-    @first_guess_colours = ["green", "green", "blue", "blue"]
-    @available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
-  end
-
-  def make_guess
-    if empty_board_history?
-      make_first_guess
-    else
-      make_next_guess
-    end
-  end
-
-  private
-
-  def make_first_guess
-    guess = []
-    @first_guess_colours.each {|colour| guess.push(PegColour.new(colour))}
-    Pattern.new(guess)
-  end
-
-  def make_next_guess
-    guess = []
-    @pattern_size.times {guess.push(PegColour.new(@available_colours.pop))}
-    Pattern.new(guess)
-  end
-
-  def empty_board_history?
-    @board.history.size == 0
-  end
-end
-
 class  FakePlayers
 
   def initialize(ui)
     @ui = ui
-    @board = Board.new(8, @pattern)
   end
 
   def codemaker(input)
@@ -130,8 +90,6 @@ class  FakePlayers
       FakeComputer.new("computer", 4)
     elsif input == "h"
       HumanPlayer.new("Gabriella", @ui, 4)
-    elsif input == "s"
-      FakeUnbeatableComputer.new("smart computer", 4, @board)
     end
   end
 end

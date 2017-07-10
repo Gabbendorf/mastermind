@@ -16,17 +16,14 @@ RSpec.describe UnbeatableComputer do
     Result.new(guess, feedback)
   end
 
-  def codemaker_create_code_pattern
-    input_colours = ['green', 'yellow', 'pink', 'blue']
-    input = StringIO.new(input_colours.join("\n"))
-    output = StringIO.new
-    ui = Ui.new(input, output)
-    codemaker = HumanPlayer.new("Gabriella", ui, 4)
-    codemaker.create_code_pattern(ui)
+  def set_up_pattern
+    colour_strings = ['green', 'yellow', 'pink', 'blue']
+    peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
+    Pattern.new(peg_colours)
   end
 
-  let(:pattern) {codemaker_create_code_pattern}
-  let(:board) {Board.new(8, pattern)}
+  let(:code_pattern) {set_up_pattern}
+  let(:board) {Board.new(8, code_pattern)}
   let(:unbeatable_computer) {UnbeatableComputer.new("smart computer", 4, board)}
 
   it "gives 2 choices of same colour and 2 of another colour for 1st guess" do
@@ -56,7 +53,7 @@ RSpec.describe UnbeatableComputer do
   it "guesses correctly within given number of guesses" do
     def make_guess_until_win
       guess = unbeatable_computer.make_guess
-      feedback = pattern.compare(guess)
+      feedback = code_pattern.compare(guess)
       new_result = Result.new(guess, feedback)
       board.keep_track_of_results(new_result)
       if !board.game_over?
