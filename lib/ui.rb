@@ -2,6 +2,7 @@ require_relative 'colour_list'
 require_relative 'board'
 require_relative 'peg_colour'
 require_relative 'colour_list'
+require_relative 'players'
 
 class Ui
 
@@ -22,6 +23,33 @@ class Ui
     @stdout.puts LOGO
   end
 
+  def choose_codemaker(players)
+    @stdout.puts "Select the codemaker (computer or human player)"
+    begin
+      codemaker = players.codemaker(@stdin.gets.chomp)
+    rescue => exception
+      @stdout.puts exception.message
+      codemaker = choose_codemaker(players)
+    end
+    codemaker
+  end
+
+  def choose_codebreaker(players)
+    @stdout.puts "Select the codebreaker (computer or human player)"
+    begin
+      codebreaker = players.codebreaker(@stdin.gets.chomp)
+    rescue => exception
+      @stdout.puts exception.message
+      codebreaker = choose_codebreaker(players)
+    end
+    codebreaker
+  end
+
+  def ask_human_player_name
+    @stdout.puts "Enter player's name:"
+    @stdin.gets.chomp
+  end
+
   def choose_code_pattern_colour
     @stdout.puts "Choose a colour to create the code pattern (colours can be repeated):"
     @stdout.puts ColourList.new.prepare_list
@@ -35,6 +63,7 @@ class Ui
   end
 
   def confirm_computer_chose_pattern
+    @stdout.puts ""
     @stdout.puts "The code pattern is ready. The challenge begins!"
     @stdout.puts ""
   end
@@ -62,12 +91,12 @@ class Ui
     @stdout.puts ""
   end
 
-  def declare_winner(player_name)
-    @stdout.puts "Congratulations #{player_name}: YOU WON! "
+  def codemaker_is_winner(codemaker_name)
+    @stdout.puts "#{codemaker_name} wins!"
   end
 
-  def declare_loser(player_name)
-    @stdout.puts "#{player_name}: GAME OVER!"
+  def codebreaker_is_winner(codebreaker_name)
+    @stdout.puts "#{codebreaker_name} wins!"
   end
 
 end

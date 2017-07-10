@@ -1,29 +1,96 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 require_relative '../lib/ui'
-require_relative '../lib/codebreaker'
+require_relative '../lib/human_player'
 require_relative '../lib/pattern'
 require_relative '../lib/result'
 require_relative '../lib/feedback'
 require_relative '../lib/board'
 require_relative '../lib/peg_colour'
+require_relative '../lib/players'
 
 RSpec.describe Ui do
 
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
-  let(:codebreaker) {Codebreaker.new("Gabriella", ui, 4)}
+  let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
   let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
 
   it "prints the game logo" do
     output = double("output")
     ui = Ui.new(input, output)
+
     expect(output).to receive(:puts).with(Ui::LOGO)
+
     ui.print_logo
   end
 
-  it "gets colour from codemaker for code pattern" do
-    input = StringIO.new("grey\nviolet\ngreen\n")
+  it "asks for codemaker and raises error message if input is wrong" do
+    input = StringIO.new("robot\ncomputer")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codemaker = ui.choose_codemaker(players)
+
+    expect(output.string).to eq("Select the codemaker (computer or human player)\nI didn't understand :(\nSelect the codemaker (computer or human player)\n")
+    expect(codemaker.name).to eq("computer-codemaker")
+  end
+
+  it "asks for codemaker and returns instance of it" do
+    input = StringIO.new("computer\n")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codemaker = ui.choose_codemaker(players)
+
+    expect(output.string).to eq("Select the codemaker (computer or human player)\n")
+    expect(codemaker.name).to eq("computer-codemaker")
+  end
+
+  it "asks for codebreaker and raises error message if input is wrong" do
+    input = StringIO.new("human\nhuman player\nGabi")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codebreaker = ui.choose_codebreaker(players)
+
+    expect(output.string).to eq("Select the codebreaker (computer or human player)\nI didn't understand :(\nSelect the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(codebreaker.name).to eq("Gabi")
+  end
+
+  it "asks for codebreaker and returns instance of it" do
+    input = StringIO.new("human player\nGabi")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+
+    codebreaker = ui.choose_codebreaker(players)
+
+    expect(output.string).to eq("Select the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(codebreaker.name).to eq("Gabi")
+  end
+
+  it "asks for name for human player" do
+    input = StringIO.new("Gabriella\n")
+    ui = Ui.new(input, output)
+
+    name = ui.ask_human_player_name
+
+    expect(output.string).to eq("Enter player's name:\n")
+    expect(name).to eq("Gabriella")
+  end
+
+  it "asks for colour from human codemaker for code pattern and raises error message if wrong input" do
+    input = StringIO.new("grey\ngreen")
+    ui = Ui.new(input, output)
+
+    peg = ui.choose_code_pattern_colour
+
+    expect(output.string).to eq("Choose a colour to create the code pattern (colours can be repeated):\ngreen, pink, yellow, purple, blue, orange\nInvalid colour :(\nChoose a colour to create the code pattern (colours can be repeated):\ngreen, pink, yellow, purple, blue, orange\n")
+    expect(peg.colour).to eq("green")
+  end
+
+  it "gets colour from human codemaker for code pattern and returns istance of it" do
+    input = StringIO.new("green\n")
     ui = Ui.new(input, output)
 
     peg = ui.choose_code_pattern_colour
@@ -70,16 +137,20 @@ RSpec.describe Ui do
                                       "GUESS: blue, blue, pink, green. FEEDBACK: 3 red peg/s, 0 white peg/s.\n", "")
   end
 
-  it "prings message for winner" do
-    ui.declare_winner(codebreaker.name)
+  it "prints message for codemaker winner" do
+    codemaker = HumanPlayer.new("Gabriella", ui, 4)
 
-    expect(output.string).to include("Congratulations Gabriella: YOU WON!")
+    ui.codemaker_is_winner(codemaker.name)
+
+    expect(output.string).to include("Gabriella wins!")
   end
 
-  it "prings message for loser" do
-    ui.declare_loser(codebreaker.name)
+  it "prints message for codebreaker winner" do
+    codebreaker = Computer.new("computer", 4)
 
-    expect(output.string).to include("Gabriella: GAME OVER!")
+    ui.codebreaker_is_winner(codebreaker.name)
+
+    expect(output.string).to include("computer wins!")
   end
 
 end

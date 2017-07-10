@@ -7,25 +7,41 @@ require_relative '../lib/peg_colour'
 
 RSpec.describe Board do
 
-  let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
+  let(:pattern) {double}
+  let(:board) {Board.new(8, pattern)}
 
-  def set_up_result(colour_strings, red_pegs, white_pegs)
+  def set_up_result(red_pegs, white_pegs)
+    colour_strings = ["green", "blue", "purple", "green"]
     peg_colours = colour_strings.map {|colour| PegColour.new(colour)}
     guess = Pattern.new(peg_colours)
     feedback = Feedback.new(red_pegs, white_pegs)
     Result.new(guess, feedback)
   end
 
-  it "registers a result containing guess and feedback" do
-    result = set_up_result(["green", "blue", "purple", "green"], 1, 2)
+  it "no result history at the start" do
+    expect(board.history).to be_empty
+  end
+
+  it "keeps track of first result" do
+    result = set_up_result(1, 2)
 
     board.keep_track_of_results(result)
 
     expect(board.history).to eq([result])
   end
 
+  it "keeps track of following result" do
+    first_result = set_up_result(1, 2)
+    second_result = set_up_result(1, 2)
+
+    board.keep_track_of_results(first_result)
+    board.keep_track_of_results(second_result)
+
+    expect(board.history).to eq([first_result, second_result])
+  end
+
   it "returns strings as hash values for guess and feedback of each result" do
-    result = set_up_result(["green", "blue", "purple", "green"], 0, 3)
+    result = set_up_result(1, 2)
     board.keep_track_of_results(result)
 
     guess = board.printable_history(board.history[0])[:guess]
@@ -33,34 +49,52 @@ RSpec.describe Board do
     white_pegs = board.printable_history(board.history[0])[:white_pegs]
 
     expect(guess).to eq("green, blue, purple, green")
-    expect(red_pegs).to eq("0")
-    expect(white_pegs).to eq("3")
+    expect(red_pegs).to eq("1")
+    expect(white_pegs).to eq("2")
   end
 
-  it "knows game is over if player runs out of the 8 possible guesses" do
-    8.times {board.keep_track_of_results([[:guess], [:feedback]])}
+  it "knows game is over if codebreaker runs out of the 8 possible guesses" do
+    losing_result = set_up_result(1, 2)
+
+    8.times {board.keep_track_of_results(losing_result)}
 
     expect(board.game_over?).to eq(true)
   end
 
-  it "knows game is over when feedback returns 4 white pegs" do
-    result = set_up_result(["green", "blue", "purple", "yellow"], 4, 0)
+  it "knows game is over when feedback returns 4 red pegs for guess" do
+    red_pegs = 4
+    white_pegs = 0
+    result = set_up_result(red_pegs, white_pegs)
+
     board.keep_track_of_results(result)
 
     expect(board.game_over?).to eq(true)
   end
 
-  it "returns :lost if 8 chances to guess ran out" do
-    8.times {board.keep_track_of_results([[:guess], [:feedback]])}
+  it "returns :codemaker_wins if codebreaker runs out of 8 possible guesses" do
+    losing_result = set_up_result(1, 3)
 
-    expect(board.verdict).to eq(:lost)
+    8.times {board.keep_track_of_results(losing_result)}
+
+    expect(board.verdict).to eq(:codemaker_wins)
   end
 
-  it "returns :won if codebreaker guesses all 4 colours correctly" do
-    result = set_up_result(["green", "blue", "purple", "yellow"], 4, 0)
-    board.keep_track_of_results(result)
+  it "returns :codebreaker_wins if codebreaker guesses all 4 pattern colours correctly" do
+    winning_result = set_up_result(4, 0)
 
-    expect(board.verdict).to eq(:won)
+    board.keep_track_of_results(winning_result)
+
+    expect(board.verdict).to eq(:codebreaker_wins)
+  end
+
+  it "returns :codebreaker_wins if codebreaker guesses correctly at 8th attempt" do
+    losing_result = set_up_result(3, 0)
+    winning_result = set_up_result(4, 0)
+
+    7.times {board.keep_track_of_results(losing_result)}
+    1.times {board.keep_track_of_results(winning_result)}
+
+    expect(board.verdict).to eq(:codebreaker_wins)
   end
 
 end
