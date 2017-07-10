@@ -5,7 +5,7 @@ require_relative 'colour_list'
 
 class UnbeatableComputer
 
-  attr_reader :name, :all_possible_patterns
+  attr_reader :name
 
   def initialize(name, pattern_size, board)
     @name = name
@@ -24,6 +24,24 @@ class UnbeatableComputer
     else
       make_next_guess
     end
+  end
+
+  private
+
+  def make_first_guess
+    colour_strings = first_guess
+    colours = []
+    colour_strings.each {|colour_string| colours.push(PegColour.new(colour_string))}
+    guess = Pattern.new(colours)
+    update_possible_patterns_and_temporary_pattern(guess)
+    guess
+  end
+
+  def make_next_guess
+    @all_possible_patterns = compatible_patterns
+    guess = @all_possible_patterns.sample
+    update_possible_patterns_and_temporary_pattern(guess)
+    guess
   end
 
   def generate_all_possible_patterns
@@ -45,31 +63,11 @@ class UnbeatableComputer
     red_pegs_and_white_pegs(feedback)
   end
 
-  private
-
-  def make_first_guess
-    colour_strings = first_guess
-    colours = []
-    colour_strings.each {|colour_string| colours.push(PegColour.new(colour_string))}
-    guess = Pattern.new(colours)
-    update_possible_patterns_and_temporary_pattern(guess)
-    guess
-  end
-
-  def make_next_guess
-    delete_incompatible_patterns(@all_possible_patterns, @temporary_pattern)
-    guess = @all_possible_patterns.sample
-    update_possible_patterns_and_temporary_pattern(guess)
-    guess
-  end
-
-  def delete_incompatible_patterns(all_possible_patterns, temporary_pattern)
-    all_possible_patterns.each do |pattern|
-      pattern_feedback = temporary_pattern.compare(pattern)
+  def compatible_patterns
+    @all_possible_patterns.select do |pattern|
+      pattern_feedback = @temporary_pattern.compare(pattern)
       pattern_feedback_pegs = red_pegs_and_white_pegs(pattern_feedback)
-      if feedback_pegs_for_guess(temporary_pattern) != pattern_feedback_pegs
-        all_possible_patterns.delete(pattern)
-      end
+      feedback_pegs_for_guess(@temporary_pattern) == pattern_feedback_pegs
     end
   end
 

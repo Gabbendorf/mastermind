@@ -35,7 +35,7 @@ RSpec.describe Mastermind do
     expect(output.string).to include("computer wins!")
   end
 
-  it "runs a new game with human player as codemaker and smart computer as codebreaker" do
+  xit "runs a new game with human player as codemaker and smart computer as codebreaker" do
     input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
