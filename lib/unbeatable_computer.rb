@@ -90,8 +90,10 @@ class UnbeatableComputer
 
   def two_random_colours
     first_colour = LIST_FOR_FIRST_GUESS.sample
-    LIST_FOR_FIRST_GUESS.delete(first_colour)
     second_colour = LIST_FOR_FIRST_GUESS.sample
+    while second_colour == first_colour
+      second_colour = LIST_FOR_FIRST_GUESS.sample
+    end
     [first_colour, second_colour]
   end
 
