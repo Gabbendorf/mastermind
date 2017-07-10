@@ -14,7 +14,7 @@ RSpec.describe Mastermind do
   let(:output) {StringIO.new}
 
   it "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("c\nh\nGabriella\norange\nblue\npurple\nyellow\n")
+    input = StringIO.new("c\nh\nGabriella\norange\nblue\npurple\nyellow\nn")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -25,7 +25,7 @@ RSpec.describe Mastermind do
   end
 
   it "runs a new game with human player as codemaker and computer as codebreaker" do
-    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\nc")
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\nc\nn")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -36,7 +36,7 @@ RSpec.describe Mastermind do
   end
 
   it "runs a new game with human player as codemaker and smart computer as codebreaker" do
-    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns")
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns\nn")
     ui = Ui.new(input, output)
     players = Players.new(ui)
     mastermind = Mastermind.new(ui, players)

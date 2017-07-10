@@ -99,4 +99,22 @@ class Ui
     @stdout.puts "#{codebreaker_name} wins!"
   end
 
+  def play_again
+    @stdout.puts "Do you want to start a new game? y/n"
+    answer = @stdin.gets.chomp.downcase
+    while answer != "y" && answer != "n"
+      answer = ask_again
+    end
+    answer
+  end
+
+  def ask_again
+    @stdout.puts "I didn't understand :(. Please repeat: y/n"
+    @stdin.gets.chomp
+  end
+
+  def say_goodbye
+    @stdout.puts "I hope you had fun, see you soon!"
+  end
+
 end

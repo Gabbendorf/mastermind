@@ -154,4 +154,40 @@ RSpec.describe Ui do
     expect(output.string).to include("computer wins!")
   end
 
+  it "asks user to start a new game and gets answer" do
+    input = StringIO.new("y\n")
+    ui = Ui.new(input, output)
+
+    answer = ui.play_again
+
+    expect(output.string).to include("Do you want to start a new game? y/n")
+    expect(answer).to eq("y")
+  end
+
+  it "asks user to start a new game and asks to repeat if wrong" do
+    input = StringIO.new("yes\ny")
+    ui = Ui.new(input, output)
+
+    answer = ui.play_again
+
+    expect(output.string).to include("Do you want to start a new game? y/n\nI didn't understand :(. Please repeat: y/n\n")
+    expect(answer).to eq("y")
+  end
+
+  it "prints message for invalid answer to play again and gets answer" do
+    input = StringIO.new("y\n")
+    ui = Ui.new(input, output)
+
+    answer = ui.ask_again
+
+    expect(output.string).to include("I didn't understand :(. Please repeat: y/n")
+    expect(answer).to eq("y")
+  end
+
+  it "prints goodbye message" do
+    ui.say_goodbye
+
+    expect(output.string).to include("I hope you had fun, see you soon!")
+  end
+
 end
