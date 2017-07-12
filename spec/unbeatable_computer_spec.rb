@@ -63,9 +63,9 @@ RSpec.describe UnbeatableComputer do
   it "guesses correctly within 8 guesses" do
     make_guess_until_win
 
-    registered_guesses = board.history.length
+    winning_guess_number = board.history.index(board.history.last)
 
-    expect(registered_guesses).to be < (8)
+    expect(winning_guess_number).to be < (8)
   end
 
 end
