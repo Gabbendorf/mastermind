@@ -45,21 +45,16 @@ class UnbeatableComputer
   end
 
   def generate_all_possible_patterns
-    @colour_list.available_colours.each do |colour1|
-      @colour_list.available_colours.each do |colour2|
-        @colour_list.available_colours.each do |colour3|
-          @colour_list.available_colours.each do |colour4|
-            four_colours = [colour1, colour2, colour3, colour4].map {|string_colour| PegColour.new(string_colour)}
-            pattern = Pattern.new(four_colours)
-            @all_possible_patterns.push(pattern)
-          end
-        end
-      end
+    array_patterns = @colour_list.available_colours.repeated_permutation(4)
+    array_patterns.each do |array_pattern|
+      four_colours = array_pattern.map {|string_colour| PegColour.new(string_colour)}
+      pattern = Pattern.new(four_colours)
+      @all_possible_patterns.push(pattern)
     end
   end
 
   def feedback_pegs_for_guess(guess)
-    feedback = @board.show_guesses_and_feedback[guess]
+    feedback = @board.guess_and_feedback[guess]
     red_pegs_and_white_pegs(feedback)
   end
 

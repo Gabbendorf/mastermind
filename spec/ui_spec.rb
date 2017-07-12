@@ -27,8 +27,7 @@ RSpec.describe Ui do
   end
 
   it "asks for codemaker and raises error message if input is wrong" do
-    input = StringIO.new("robot\nc")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("robot\nc"), output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
@@ -38,8 +37,7 @@ RSpec.describe Ui do
   end
 
   it "asks for codemaker and returns instance of it" do
-    input = StringIO.new("c")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("c"), output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
@@ -49,8 +47,7 @@ RSpec.describe Ui do
   end
 
   it "asks for codebreaker and raises error message if input is wrong" do
-    input = StringIO.new("human\nh\nGabi")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("human\nh\nGabi"), output)
     players = Players.new(ui)
 
     codebreaker = ui.choose_codebreaker(players, board)
@@ -60,8 +57,7 @@ RSpec.describe Ui do
   end
 
   it "asks for codebreaker and returns instance of it" do
-    input = StringIO.new("h\nGabi")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("h\nGabi"), output)
     players = Players.new(ui)
 
     codebreaker = ui.choose_codebreaker(players, board)
@@ -71,8 +67,7 @@ RSpec.describe Ui do
   end
 
   it "asks for name for human player" do
-    input = StringIO.new("Gabriella")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("Gabriella"), output)
 
     name = ui.ask_human_player_name
 
@@ -81,8 +76,7 @@ RSpec.describe Ui do
   end
 
   it "asks for colour from human codemaker for code pattern and raises error message if wrong input" do
-    input = StringIO.new("grey\ngreen")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("grey\ngreen"), output)
 
     peg = ui.choose_code_pattern_colour
 
@@ -91,8 +85,7 @@ RSpec.describe Ui do
   end
 
   it "gets colour from human codemaker for code pattern and returns istance of it" do
-    input = StringIO.new("green")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("green"), output)
 
     peg = ui.choose_code_pattern_colour
 
@@ -107,9 +100,8 @@ RSpec.describe Ui do
     expect(output.string).to include("The code pattern is ready. The challenge begins!", "")
   end
 
-  it "gets colour from codebreaker to make guess" do
-    input = StringIO.new("grey\nviolet\ngreen")
-    ui = Ui.new(input, output)
+  it "gets colour from codebreaker to make guess and returns istance of it" do
+    ui = Ui.new(StringIO.new("green"), output)
 
     peg = ui.make_guess(codebreaker.name)
 
@@ -155,8 +147,7 @@ RSpec.describe Ui do
   end
 
   it "asks user to start a new game and gets answer" do
-    input = StringIO.new("y\n")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("y\n"), output)
 
     answer = ui.play_again
 
@@ -165,8 +156,7 @@ RSpec.describe Ui do
   end
 
   it "asks user to start a new game and asks to repeat if wrong" do
-    input = StringIO.new("yes\ny")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("yes\ny"), output)
 
     answer = ui.play_again
 
@@ -175,8 +165,7 @@ RSpec.describe Ui do
   end
 
   it "prints message for invalid answer to play again and gets answer" do
-    input = StringIO.new("y\n")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("y\n"), output)
 
     answer = ui.ask_again
 

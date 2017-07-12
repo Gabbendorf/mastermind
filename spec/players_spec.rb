@@ -14,53 +14,53 @@ RSpec.describe Players do
   let(:players) {Players.new(ui)}
 
   it "raises error if entered input for codemaker is invalid" do
-    input = "robot"
+    player_selection = "robot"
 
-    expect{players.codemaker(input)}.to raise_error("I didn't understand :(")
+    expect{players.codemaker(player_selection)}.to raise_error("I didn't understand :(")
   end
 
   it "creates computer codemaker" do
-    input = "c"
+    player_selection = "c"
 
-    codemaker = players.codemaker(input)
+    codemaker = players.codemaker(player_selection)
 
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "creates human player codemaker" do
-    input = "h"
+    player_selection = "h"
 
-    codemaker = players.codemaker(input)
+    codemaker = players.codemaker(player_selection)
 
     expect(codemaker.name).to eq("Gabriella")
   end
 
   it "raises error if entered input for codebreaker is invalid" do
-    input = "robot"
+    player_selection = "robot"
 
-    expect{players.codebreaker(input, board)}.to raise_error("I didn't understand :(")
+    expect{players.codebreaker(player_selection, board)}.to raise_error("I didn't understand :(")
   end
 
   it "creates computer codebreaker" do
-    input = "c"
+    player_selection = "c"
 
-    codebreaker = players.codebreaker(input, board)
+    codebreaker = players.codebreaker(player_selection, board)
 
     expect(codebreaker.name).to eq("computer-codebreaker")
   end
 
   it "creates human player codebreaker" do
-    input = "h"
+    player_selection = "h"
 
-    codebreaker = players.codebreaker(input, board)
+    codebreaker = players.codebreaker(player_selection, board)
 
     expect(codebreaker.name).to eq("Gabriella")
   end
 
   it "creates smart computer codebreaker" do
-    input = "s"
+    player_selection = "s"
 
-    codebreaker = players.codebreaker(input, board)
+    codebreaker = players.codebreaker(player_selection, board)
 
     expect(codebreaker.name).to eq("smart computer")
   end

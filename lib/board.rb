@@ -19,10 +19,10 @@ class Board
     }
   end
 
-  def show_guesses_and_feedback
-    feedback = {}
-    @history.each {|result| feedback[result.guess] = result.feedback}
-    feedback
+  def guess_and_feedback
+    guess_and_feedback = {}
+    @history.each {|result| guess_and_feedback[result.guess] = result.feedback}
+    guess_and_feedback
   end
 
   def game_over?

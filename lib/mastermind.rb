@@ -43,8 +43,7 @@ class Mastermind
   def end_of_game(board, codemaker, codebreaker)
     game_verdict = board.verdict
     game_verdict == :codemaker_wins ? @ui.codemaker_is_winner(codemaker.name) : @ui.codebreaker_is_winner(codebreaker.name)
-    answer = @ui.play_again
-    answer == "y" ? run_game : @ui.say_goodbye
+    @ui.play_again == "y" ? run_game : @ui.say_goodbye
   end
 
 end

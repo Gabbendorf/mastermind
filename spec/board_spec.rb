@@ -59,9 +59,9 @@ RSpec.describe Board do
     board.keep_track_of_results(first_result)
     board.keep_track_of_results(second_result)
 
-    hash_of_feedback = board.show_guesses_and_feedback
+    hash_of_guesses_and_feedback = {first_result.guess => first_result.feedback, second_result.guess => second_result.feedback}
 
-    expect(hash_of_feedback).to eq({first_result.guess => first_result.feedback, second_result.guess => second_result.feedback})
+    expect(board.guess_and_feedback).to eq(hash_of_guesses_and_feedback)
   end
 
   it "knows game is over if codebreaker runs out of the 8 possible guesses" do
