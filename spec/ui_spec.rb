@@ -134,8 +134,8 @@ RSpec.describe Ui do
 
     ui.print_history(board.history, board)
 
-    expect(output.string).to include("", "GUESS: purple, blue, yellow, green. FEEDBACK: 1 red peg/s, 2 white peg/s.\n",
-                                      "GUESS: blue, blue, pink, green. FEEDBACK: 3 red peg/s, 0 white peg/s.\n", "")
+    expect(output.string).to include("", "GUESS: purple, blue, yellow, green       FEEDBACK: 1 red peg/s, 2 white peg/s\n",
+                                      "GUESS: blue, blue, pink, green           FEEDBACK: 3 red peg/s, 0 white peg/s\n", "")
   end
 
   it "prints message for codemaker winner" do

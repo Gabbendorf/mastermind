@@ -18,6 +18,16 @@ If there are duplicate colours in the guess, they cannot all be awarded a key pe
 Once feedback is provided, another guess is made; guesses and feedback continue to alternate until either the codebreaker guesses correctly within eight turns, or eight incorrect guesses are made.
 Smart computer codebreaker always wins.
 
+### How to run the game from the command line
+
+`git clone https://github.com/Gabbendorf/mastermind.git`
+
+`cd mastermind`
+
+`bundle install`
+
+`ruby lib/execute.rb`
+
 ### How to run the tests from the command line:
 
 From main directory: `rspec spec` to run all tests inside `spec` directory
@@ -25,13 +35,3 @@ From main directory: `rspec spec` to run all tests inside `spec` directory
 ### How to include color when running the tests:
 
 To add color from the command line: `rspec spec --color`
-
-### How to run the game from the command line
-
-`https://github.com/Gabbendorf/mastermind.git`
-
-`cd mastermind`
-
-`bundle install`
-
-`ruby lib/execute.rb`
