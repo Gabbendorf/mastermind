@@ -15,9 +15,9 @@ class Mastermind
   def run_game
     @ui.print_logo
     codemaker = @ui.choose_codemaker(@players)
-    codebreaker = @ui.choose_codebreaker(@players)
     pattern = codemaker.create_code_pattern(@ui)
     board = Board.new(8, pattern)
+    codebreaker = @ui.choose_codebreaker(@players, board)
     play(pattern, board, codemaker, codebreaker)
   end
 
@@ -43,6 +43,7 @@ class Mastermind
   def end_of_game(board, codemaker, codebreaker)
     game_verdict = board.verdict
     game_verdict == :codemaker_wins ? @ui.codemaker_is_winner(codemaker.name) : @ui.codebreaker_is_winner(codebreaker.name)
+    @ui.play_again == "y" ? run_game : @ui.say_goodbye
   end
 
 end

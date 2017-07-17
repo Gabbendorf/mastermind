@@ -24,7 +24,7 @@ class Ui
   end
 
   def choose_codemaker(players)
-    @stdout.puts "Select the codemaker (computer or human player)"
+    @stdout.puts "Select the codemaker ('c' = computer or 'h' = human player)"
     begin
       codemaker = players.codemaker(@stdin.gets.chomp)
     rescue => exception
@@ -34,13 +34,13 @@ class Ui
     codemaker
   end
 
-  def choose_codebreaker(players)
-    @stdout.puts "Select the codebreaker (computer or human player)"
+  def choose_codebreaker(players, board)
+    @stdout.puts "Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)"
     begin
-      codebreaker = players.codebreaker(@stdin.gets.chomp)
+      codebreaker = players.codebreaker(@stdin.gets.chomp, board)
     rescue => exception
       @stdout.puts exception.message
-      codebreaker = choose_codebreaker(players)
+      codebreaker = choose_codebreaker(players, board)
     end
     codebreaker
   end
@@ -85,8 +85,8 @@ class Ui
   def print_history(history, board)
     @stdout.puts ""
     history.each do |result|
-      @stdout.puts "GUESS: " + board.printable_history(result)[:guess] + ". FEEDBACK: " + board.printable_history(result)[:red_pegs] +
-      " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s.\n"
+      @stdout.puts "GUESS: " + board.printable_history(result)[:guess].ljust(34) + "FEEDBACK: " + board.printable_history(result)[:red_pegs] +
+      " red peg/s, " + board.printable_history(result)[:white_pegs] +  " white peg/s\n"
     end
     @stdout.puts ""
   end
@@ -97,6 +97,24 @@ class Ui
 
   def codebreaker_is_winner(codebreaker_name)
     @stdout.puts "#{codebreaker_name} wins!"
+  end
+
+  def play_again
+    @stdout.puts "Do you want to start a new game? y/n"
+    answer = @stdin.gets.chomp.downcase
+    while answer != "y" && answer != "n"
+      answer = ask_again
+    end
+    answer
+  end
+
+  def ask_again
+    @stdout.puts "I didn't understand :(. Please repeat: y/n"
+    @stdin.gets.chomp
+  end
+
+  def say_goodbye
+    @stdout.puts "I hope you had fun, see you soon!"
   end
 
 end

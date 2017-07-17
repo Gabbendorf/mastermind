@@ -13,8 +13,9 @@ RSpec.describe Ui do
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
+  let(:pattern) {double}
+  let(:board) {Board.new(8, pattern)}
   let(:codebreaker) {HumanPlayer.new("Gabriella", ui, 4)}
-  let(:board) {Board.new(8, ["green", "pink", "green", "blue"])}
 
   it "prints the game logo" do
     output = double("output")
@@ -26,52 +27,47 @@ RSpec.describe Ui do
   end
 
   it "asks for codemaker and raises error message if input is wrong" do
-    input = StringIO.new("robot\ncomputer")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("robot\nc"), output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
 
-    expect(output.string).to eq("Select the codemaker (computer or human player)\nI didn't understand :(\nSelect the codemaker (computer or human player)\n")
+    expect(output.string).to eq("Select the codemaker ('c' = computer or 'h' = human player)\nI didn't understand :(\nSelect the codemaker ('c' = computer or 'h' = human player)\n")
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "asks for codemaker and returns instance of it" do
-    input = StringIO.new("computer\n")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("c"), output)
     players = Players.new(ui)
 
     codemaker = ui.choose_codemaker(players)
 
-    expect(output.string).to eq("Select the codemaker (computer or human player)\n")
+    expect(output.string).to eq("Select the codemaker ('c' = computer or 'h' = human player)\n")
     expect(codemaker.name).to eq("computer-codemaker")
   end
 
   it "asks for codebreaker and raises error message if input is wrong" do
-    input = StringIO.new("human\nhuman player\nGabi")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("human\nh\nGabi"), output)
     players = Players.new(ui)
 
-    codebreaker = ui.choose_codebreaker(players)
+    codebreaker = ui.choose_codebreaker(players, board)
 
-    expect(output.string).to eq("Select the codebreaker (computer or human player)\nI didn't understand :(\nSelect the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nI didn't understand :(\nSelect the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 
   it "asks for codebreaker and returns instance of it" do
-    input = StringIO.new("human player\nGabi")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("h\nGabi"), output)
     players = Players.new(ui)
 
-    codebreaker = ui.choose_codebreaker(players)
+    codebreaker = ui.choose_codebreaker(players, board)
 
-    expect(output.string).to eq("Select the codebreaker (computer or human player)\nEnter player's name:\n")
+    expect(output.string).to eq("Select the codebreaker ('c' = computer, 'h' = human player or 's' = smart computer)\nEnter player's name:\n")
     expect(codebreaker.name).to eq("Gabi")
   end
 
   it "asks for name for human player" do
-    input = StringIO.new("Gabriella\n")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("Gabriella"), output)
 
     name = ui.ask_human_player_name
 
@@ -80,8 +76,7 @@ RSpec.describe Ui do
   end
 
   it "asks for colour from human codemaker for code pattern and raises error message if wrong input" do
-    input = StringIO.new("grey\ngreen")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("grey\ngreen"), output)
 
     peg = ui.choose_code_pattern_colour
 
@@ -90,8 +85,7 @@ RSpec.describe Ui do
   end
 
   it "gets colour from human codemaker for code pattern and returns istance of it" do
-    input = StringIO.new("green\n")
-    ui = Ui.new(input, output)
+    ui = Ui.new(StringIO.new("green"), output)
 
     peg = ui.choose_code_pattern_colour
 
@@ -106,9 +100,8 @@ RSpec.describe Ui do
     expect(output.string).to include("The code pattern is ready. The challenge begins!", "")
   end
 
-  it "gets colour from codebreaker to make guess" do
-    input = StringIO.new("grey\nviolet\ngreen\n")
-    ui = Ui.new(input, output)
+  it "gets colour from codebreaker to make guess and returns istance of it" do
+    ui = Ui.new(StringIO.new("green"), output)
 
     peg = ui.make_guess(codebreaker.name)
 
@@ -133,8 +126,8 @@ RSpec.describe Ui do
 
     ui.print_history(board.history, board)
 
-    expect(output.string).to include("", "GUESS: purple, blue, yellow, green. FEEDBACK: 1 red peg/s, 2 white peg/s.\n",
-                                      "GUESS: blue, blue, pink, green. FEEDBACK: 3 red peg/s, 0 white peg/s.\n", "")
+    expect(output.string).to include("", "GUESS: purple, blue, yellow, green       FEEDBACK: 1 red peg/s, 2 white peg/s\n",
+                                      "GUESS: blue, blue, pink, green           FEEDBACK: 3 red peg/s, 0 white peg/s\n", "")
   end
 
   it "prints message for codemaker winner" do
@@ -151,6 +144,39 @@ RSpec.describe Ui do
     ui.codebreaker_is_winner(codebreaker.name)
 
     expect(output.string).to include("computer wins!")
+  end
+
+  it "asks user to start a new game and gets answer" do
+    ui = Ui.new(StringIO.new("y\n"), output)
+
+    answer = ui.play_again
+
+    expect(output.string).to include("Do you want to start a new game? y/n")
+    expect(answer).to eq("y")
+  end
+
+  it "asks user to start a new game and asks to repeat if wrong" do
+    ui = Ui.new(StringIO.new("yes\ny"), output)
+
+    answer = ui.play_again
+
+    expect(output.string).to include("Do you want to start a new game? y/n\nI didn't understand :(. Please repeat: y/n\n")
+    expect(answer).to eq("y")
+  end
+
+  it "prints message for invalid answer to play again and gets answer" do
+    ui = Ui.new(StringIO.new("y\n"), output)
+
+    answer = ui.ask_again
+
+    expect(output.string).to include("I didn't understand :(. Please repeat: y/n")
+    expect(answer).to eq("y")
+  end
+
+  it "prints goodbye message" do
+    ui.say_goodbye
+
+    expect(output.string).to include("I hope you had fun, see you soon!")
   end
 
 end

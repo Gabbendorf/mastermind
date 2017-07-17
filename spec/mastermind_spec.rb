@@ -5,13 +5,16 @@ require_relative '../lib/human_player'
 require_relative '../lib/ui'
 require_relative '../lib/peg_colour'
 require_relative '../lib/pattern'
+require_relative '../lib/board'
+require_relative '../lib/unbeatable_computer'
+require_relative '../lib/players'
 
 RSpec.describe Mastermind do
 
   let(:output) {StringIO.new}
 
   it "runs a new game with computer as codemaker and human player as codebreaker" do
-    input = StringIO.new("computer\nhuman player\nGabriella\ngreen\npink\nyellow\npurple\norange\nblue\npurple\nyellow\n")
+    input = StringIO.new("c\nh\nGabriella\norange\nblue\npurple\nyellow\nn")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -22,7 +25,7 @@ RSpec.describe Mastermind do
   end
 
   it "runs a new game with human player as codemaker and computer as codebreaker" do
-    input = StringIO.new("human player\ncomputer\norange\nblue\npurple\nyellow\n")
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\nc\nn")
     ui = Ui.new(input, output)
     players = FakePlayers.new(ui)
     mastermind = Mastermind.new(ui, players)
@@ -32,6 +35,16 @@ RSpec.describe Mastermind do
     expect(output.string).to include("computer wins!")
   end
 
+  it "runs a new game with human player as codemaker and smart computer as codebreaker" do
+    input = StringIO.new("h\nGabriella\norange\nblue\npurple\nyellow\ns\nn")
+    ui = Ui.new(input, output)
+    players = Players.new(ui)
+    mastermind = Mastermind.new(ui, players)
+
+    mastermind.run_game
+
+    expect(output.string).to include("smart computer wins!")
+  end
 end
 
 class FakeComputer
@@ -56,10 +69,7 @@ class FakeComputer
     @pattern_size.times {guess.push(PegColour.new(@available_colours.pop))}
     Pattern.new(guess)
   end
-
 end
-
-require_relative '../lib/human_player'
 
 class  FakePlayers
 
@@ -68,17 +78,17 @@ class  FakePlayers
   end
 
   def codemaker(input)
-    if input == "computer"
+    if input == "c"
       FakeComputer.new("computer", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new("Gabriella", @ui, 4)
     end
   end
 
-  def codebreaker(input)
-    if input == "computer"
+  def codebreaker(input, board)
+    if input == "c"
       FakeComputer.new("computer", 4)
-    elsif input == "human player"
+    elsif input == "h"
       HumanPlayer.new("Gabriella", @ui, 4)
     end
   end

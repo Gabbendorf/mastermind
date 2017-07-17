@@ -1,18 +1,18 @@
 require 'spec_helper'
-require 'computer'
-require 'ui'
+require_relative '../lib/computer'
+require_relative '../lib/ui'
 
 RSpec.describe Computer do
 
   let(:input) {StringIO.new}
   let(:output) {StringIO.new}
   let(:ui) {Ui.new(input, output)}
-  let(:codemaker) {Computer.new("computer", 4)}
+  let(:computer) {Computer.new("computer", 4)}
 
   it "is the codemaker and creates code pattern w/ 4 colours randomly" do
     available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
 
-    pattern = codemaker.create_code_pattern(ui)
+    pattern = computer.create_code_pattern(ui)
 
     colour1 = pattern.colours[0].colour
     colour2 = pattern.colours[1].colour
@@ -25,7 +25,7 @@ RSpec.describe Computer do
   it "is the codebreaker and makes guess w/ 4 colours randomly" do
     available_colours = ["green", "pink", "yellow", "purple", "blue", "orange"]
 
-    pattern = codemaker.make_guess
+    pattern = computer.make_guess
 
     colour1 = pattern.colours[0].colour
     colour2 = pattern.colours[1].colour

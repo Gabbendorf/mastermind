@@ -1,12 +1,11 @@
 class Board
 
-  attr_reader :code_pattern, :history, :all_feeback
+  attr_reader :code_pattern, :history
 
   def initialize(rows, code_pattern)
     @rows = rows
     @code_pattern = code_pattern
     @history = []
-    @all_feeback = []
   end
 
   def keep_track_of_results(result)
@@ -18,6 +17,12 @@ class Board
      :red_pegs => result.feedback.red_pegs.to_s,
      :white_pegs => result.feedback.white_pegs.to_s
     }
+  end
+
+  def guess_and_feedback
+    guess_and_feedback = {}
+    @history.each {|result| guess_and_feedback[result.guess] = result.feedback}
+    guess_and_feedback
   end
 
   def game_over?

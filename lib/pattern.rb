@@ -20,6 +20,10 @@ class Pattern
     Feedback.new(red_pegs, white_pegs)
   end
 
+  def code_pattern_colours
+    @colours.map {|peg_colour| peg_colour.colour}
+  end
+
   private
 
   def identical?(guess_colours, index)
@@ -33,10 +37,6 @@ class Pattern
 
   def white_pegs_count(rest_of_code_pattern, rest_of_guess)
     (rest_of_code_pattern & rest_of_guess).size
-  end
-
-  def code_pattern_colours
-    @colours.map {|peg_colour| peg_colour.colour}
   end
 
   def guess_colours(guess)
